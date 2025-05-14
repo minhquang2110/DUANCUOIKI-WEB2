@@ -11,13 +11,13 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "WorkHistory")
-public class WorkHistory {
+public class WorkHistoryEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "scientistID")
-    private Scientist scientist;
+    private ScientistEntity scientistEntity;
 
     private Date startDate;
     private Date endDate;
@@ -25,7 +25,7 @@ public class WorkHistory {
 
     @ManyToOne
     @JoinColumn(name = "organizationID")
-    private Organization organization;
+    private OrganizationEntity organizationEntity;
 
     private String position;
 

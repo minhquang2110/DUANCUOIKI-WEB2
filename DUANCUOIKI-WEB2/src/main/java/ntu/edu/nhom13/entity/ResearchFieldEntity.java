@@ -10,16 +10,16 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "ResearchFields")
-public class ResearchField {
+public class ResearchFieldEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "parentFieldID")
-    private ResearchField parentField;
+    private ResearchFieldEntity parentFieldEntity;
 
     private String description;
 

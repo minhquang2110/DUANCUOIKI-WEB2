@@ -11,10 +11,10 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "Accounts")
-public class Account {
+public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer accountId;
+    private Long accountId;
 
     @Column(nullable = false, unique = true)
     private String username;

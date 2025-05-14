@@ -1,20 +1,17 @@
-package ntu.edu.nhom13.entity;
-import jakarta.persistence.*;
+package ntu.edu.nhom13.dto;
+
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Setter
+
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "Projects")
-public class Project {
-    @Id
-    private Integer id;
-
+public class ProjectDto {
+    private Long id;
     private String projectCode;
     private String projectName;
     private String projectLevel;
@@ -25,17 +22,12 @@ public class Project {
     private String objective;
     private String content;
     private String result;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String evaluation;
     private String status;
     private String productType;
     private String applicationAddress;
     private Double budget;
-
-    @Column(columnDefinition = "TEXT")
     private String attachment;
-
-    // Getters, Setters
 }
-

@@ -1,19 +1,15 @@
-package ntu.edu.nhom13.entity;
-import jakarta.persistence.*;
+package ntu.edu.nhom13.dto;
+
 import lombok.*;
 
-
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "Articles")
-public class Article {
-    @Id
-    private Integer id;
 
+public class ArticleDto {
+    private Long id;
     private String title;
     private String journalName;
     private String issn;
@@ -23,9 +19,7 @@ public class Article {
     private String publisher;
     private String journalType;
     private String journalLevel;
-    private Integer publicationYear;
+    private Long publicationYear;
     private String researchFields;
     private String attachment;
-
-    // Getters, Setters
 }

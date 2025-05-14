@@ -9,17 +9,17 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "ProjectParticipants")
-public class ProjectParticipant {
+public class ProjectParticipantEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "projectID")
-    private Project project;
+    private ProjectEntity projectEntity;
 
     @ManyToOne
     @JoinColumn(name = "scientistID")
-    private Scientist scientist;
+    private ScientistEntity scientistEntity;
 
     private Boolean isLeader = false;
 

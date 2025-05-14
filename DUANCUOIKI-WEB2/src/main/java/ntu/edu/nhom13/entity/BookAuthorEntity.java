@@ -8,18 +8,20 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "ArticleAuthors")
-public class ArticleAuthor {
+@Table(name = "BookAuthors")
+public class BookAuthorEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "articleID")
-    private Article article;
+    @JoinColumn(name = "bookID")
+    private BookEntity bookEntity;
 
     @ManyToOne
     @JoinColumn(name = "scientistID")
-    private Scientist scientist;
+    private ScientistEntity scientistEntity;
+
+    private Boolean isEditor = false;
 
     // Getters, Setters
 }

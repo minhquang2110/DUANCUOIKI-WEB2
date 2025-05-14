@@ -13,9 +13,9 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "Degrees")
-public class Degree {
+public class DegreeEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;

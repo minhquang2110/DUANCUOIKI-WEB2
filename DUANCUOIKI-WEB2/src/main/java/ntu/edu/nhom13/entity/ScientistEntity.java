@@ -10,13 +10,13 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "Scientists")
-public class Scientist {
+public class ScientistEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
-    private Account account;
+    private AccountEntity accountEntity;
 
     @Column(nullable = false)
     private String fullName;
@@ -25,7 +25,7 @@ public class Scientist {
     private String gender;
 
     @Column(nullable = false)
-    private Integer birthYear;
+    private Long birthYear;
 
     private String image;
     private String address;
@@ -36,27 +36,27 @@ public class Scientist {
 
     @ManyToOne
     @JoinColumn(name = "degreeID")
-    private Degree degree;
+    private DegreeEntity degreeEntity;
 
     @ManyToOne
     @JoinColumn(name = "rankID")
-    private Rank rank;
+    private RankEntity rankEntity;
 
     @ManyToOne
     @JoinColumn(name = "titleID")
-    private Title title;
+    private TitleEntity titleEntity;
 
     @ManyToOne
     @JoinColumn(name = "fieldID")
-    private ResearchField researchField;
+    private ResearchFieldEntity researchFieldEntity;
 
     @ManyToOne
     @JoinColumn(name = "organizationID")
-    private Organization organization;
+    private OrganizationEntity organizationEntity;
 
     @ManyToOne
     @JoinColumn(name = "languageLevelID")
-    private LanguageLevel languageLevel;
+    private LanguageLevelEntity languageLevelEntity;
 
     private String major;
     private String subMajor;

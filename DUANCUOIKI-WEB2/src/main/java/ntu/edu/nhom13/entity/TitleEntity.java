@@ -12,19 +12,13 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Organizations")
-public class Organization {
+@Table(name = "Titles")
+public class TitleEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    private String address;
-
-    private String phoneNumber;
-    private String email;
 
     // Getters, Setters
 }

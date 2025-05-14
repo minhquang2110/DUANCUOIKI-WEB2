@@ -12,10 +12,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Titles")
-public class Title {
+@Table(name = "Ranks")
+public class RankEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;

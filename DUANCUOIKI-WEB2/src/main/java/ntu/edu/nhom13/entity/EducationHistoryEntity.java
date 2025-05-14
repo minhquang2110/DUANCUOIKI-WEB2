@@ -9,18 +9,18 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "EducationHistory")
-public class EducationHistory {
+public class EducationHistoryEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "scientistID")
-    private Scientist scientist;
+    private ScientistEntity scientistEntity;
 
     private String level;
     private String institution;
     private String major;
-    private Integer graduationYear;
+    private Long graduationYear;
 
     // Getters, Setters
 }

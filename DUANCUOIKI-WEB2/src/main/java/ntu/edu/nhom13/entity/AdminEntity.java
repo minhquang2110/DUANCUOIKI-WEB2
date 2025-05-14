@@ -10,14 +10,14 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "Admins")
-public class Admin {
+public class AdminEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer adminId;
+    private Long adminId;
 
     @OneToOne
     @JoinColumn(name = "accountId", nullable = false, unique = true)
-    private Account account;
+    private AccountEntity accountEntity;
 
     @Column(nullable = false)
     private String fullName;

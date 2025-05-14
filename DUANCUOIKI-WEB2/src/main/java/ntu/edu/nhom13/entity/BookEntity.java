@@ -11,9 +11,9 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "Books")
-public class Book {
+public class BookEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;

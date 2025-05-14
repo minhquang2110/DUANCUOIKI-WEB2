@@ -12,13 +12,14 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Ranks")
-public class Rank {
+@Table(name = "LanguageLevels")
+public class LanguageLevelEntity {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
     // Getters, Setters
 }
+
