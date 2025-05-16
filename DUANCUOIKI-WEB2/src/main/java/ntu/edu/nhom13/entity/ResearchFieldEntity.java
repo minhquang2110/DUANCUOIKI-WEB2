@@ -18,7 +18,7 @@ public class ResearchFieldEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "parentFieldID")
+    @JoinColumn(name = "parent_field_id")
     private ResearchFieldEntity parentFieldEntity;
 
     private String description;

@@ -16,7 +16,7 @@ public class AdminEntity {
     private Long adminId;
 
     @OneToOne
-    @JoinColumn(name = "accountId", nullable = false, unique = true)
+    @JoinColumn(name = "account_id", nullable = false, unique = true)
     private AccountEntity accountEntity;
 
     @Column(nullable = false)

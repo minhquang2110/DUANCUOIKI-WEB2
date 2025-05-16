@@ -14,11 +14,11 @@ public class ProjectParticipantEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "projectID")
+    @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
     @ManyToOne
-    @JoinColumn(name = "scientistID")
+    @JoinColumn(name = "scientist_id")
     private ScientistEntity scientistEntity;
 
     private Boolean isLeader = false;

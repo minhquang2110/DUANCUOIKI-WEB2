@@ -14,7 +14,7 @@ public class EducationHistoryEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "scientistID")
+    @JoinColumn(name = "scientist_id")
     private ScientistEntity scientistEntity;
 
     private String level;

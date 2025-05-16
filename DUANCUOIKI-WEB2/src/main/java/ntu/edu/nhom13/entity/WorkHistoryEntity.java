@@ -16,7 +16,7 @@ public class WorkHistoryEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "scientistID")
+    @JoinColumn(name = "scientist_id")
     private ScientistEntity scientistEntity;
 
     private Date startDate;
@@ -24,7 +24,7 @@ public class WorkHistoryEntity {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "organizationID")
+    @JoinColumn(name = "organization_id")
     private OrganizationEntity organizationEntity;
 
     private String position;

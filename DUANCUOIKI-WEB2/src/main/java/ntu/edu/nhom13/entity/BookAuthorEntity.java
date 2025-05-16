@@ -14,11 +14,11 @@ public class BookAuthorEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "bookID")
+    @JoinColumn(name = "book_id")
     private BookEntity bookEntity;
 
     @ManyToOne
-    @JoinColumn(name = "scientistID")
+    @JoinColumn(name = "scientist_id")
     private ScientistEntity scientistEntity;
 
     private Boolean isEditor = false;

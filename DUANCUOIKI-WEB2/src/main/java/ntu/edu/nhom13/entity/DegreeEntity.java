@@ -16,7 +16,7 @@ import lombok.*;
 public class DegreeEntity {
     @Id
     private Long id;
-
+    
     @Column(nullable = false)
     private String name;
 

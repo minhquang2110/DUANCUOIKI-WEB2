@@ -1,13 +1,10 @@
 package ntu.edu.nhom13.dto;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
-
 public class ScientistDto {
     private Long id;
     private Long accountId;

@@ -14,11 +14,11 @@ public class ArticleAuthorEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "articleID")
+    @JoinColumn(name = "article_id")
     private ArticleEntity articleEntity;
 
     @ManyToOne
-    @JoinColumn(name = "scientistID")
+    @JoinColumn(name = "scientist_id")
     private ScientistEntity scientistEntity;
 
     // Getters, Setters
