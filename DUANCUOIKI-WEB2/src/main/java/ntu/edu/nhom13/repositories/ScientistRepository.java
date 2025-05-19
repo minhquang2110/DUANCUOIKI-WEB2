@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import ntu.edu.nhom13.entity.Project;
 import ntu.edu.nhom13.entity.Scientist;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface ScientistRepository extends JpaRepository<Scientist, Integer> {
     	    WHERE s.id = :id
     	""")
     	Optional<Scientist> findByIdWithRelations(@Param("id") Integer id);
+    
+    @Query("SELECT s FROM Scientist s WHERE s.account.id = :accountId")
+    Scientist findScientistByAccountId(@Param("accountId") Integer accountId);
 }

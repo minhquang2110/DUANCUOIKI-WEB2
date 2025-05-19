@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import ntu.edu.nhom13.entity.Book;
 import ntu.edu.nhom13.entity.Scientist;
+import ntu.edu.nhom13.repositories.BookRepository;
 import ntu.edu.nhom13.repositories.ScientistRepository;
 
 import java.util.List;
@@ -15,11 +17,17 @@ public class ScientistService {
 
     @Autowired
     private ScientistRepository scientistRepository;
-
+    
+    @Autowired
+    private BookRepository bookRepository;
+    
     public List<Scientist> getAllScientists() {
         return scientistRepository.findAll();
     }
-
+    
+    public Scientist getScientistByAccountId(Integer id) {
+    	return scientistRepository.findScientistByAccountId(id);
+    }
     public Optional<Scientist> getScientistById(Integer id) {
         return scientistRepository.findById(id);
     }
@@ -50,4 +58,9 @@ public class ScientistService {
         return scientistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Scientist not found with id " + id));
     }
+
+    public List<Book> getAllBooks(Integer id) {
+    	return bookRepository.findByScientistId(id);
+    }
+
 }

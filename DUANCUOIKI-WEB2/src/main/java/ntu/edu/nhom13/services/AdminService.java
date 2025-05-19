@@ -3,6 +3,7 @@ package ntu.edu.nhom13.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ntu.edu.nhom13.entity.Admin;
+import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.repositories.AdminRepository;
 
 import java.util.List;
@@ -22,6 +23,10 @@ public class AdminService {
         return adminRepository.findById(id);
     }
 
+    public Admin getAdminByAccountId(Integer id) {
+    	return adminRepository.findaAdminByAccountId(id);
+    }
+    
     public Admin saveAdmin(Admin admin) {
         return adminRepository.save(admin);
     }

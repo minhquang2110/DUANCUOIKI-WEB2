@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ntu.edu.nhom13.entity.Book;
+import ntu.edu.nhom13.entity.Project;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {

@@ -2,6 +2,8 @@ package ntu.edu.nhom13.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ntu.edu.nhom13.entity.Project;
 import ntu.edu.nhom13.entity.ProjectParticipant;
 import ntu.edu.nhom13.repositories.ProjectParticipantRepository;
 
@@ -29,4 +31,8 @@ public class ProjectParticipantService {
     public void deleteProjectParticipant(Integer id) {
         projectParticipantRepository.deleteById(id);
     }
+    
+    public List<Project> findByScientistId(Integer id) {
+   	 return projectParticipantRepository.findProjectsByScientistId(id);
+   }
 }

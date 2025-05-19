@@ -10,10 +10,10 @@ public class Scientist {
 
     @Id
     @Column(name = "id")
-    private Integer id;  // chú ý không tự động tăng theo DB, vì id do hệ thống khác cấp?
+    private Integer id;  
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id") //Khi tạo mới một Scientist, anh phải tạo Account trước (vì Scientist có FK account_id).
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id") 
     private Account account;
 
     /**
@@ -76,48 +76,48 @@ public class Scientist {
 	public void setEducationHistories(List<EducationHistory> educationHistories) {
 		this.educationHistories = educationHistories;
 	}
-	@Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private String gender;
 
-    @Column(name = "birth_year", nullable = false)
+    @Column(name = "birth_year")
     private Integer birthYear;
 
     @Column(name = "image")
     private String image;
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address")
     private String address;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "degree_id")
     private Degree degree;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rank_id")
     private Rank rank;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "title_id")
     private Title title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "field_id")
     private ResearchField researchField;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "language_level_id")
     private LanguageLevel languageLevel;
 
@@ -139,10 +139,10 @@ public class Scientist {
     @OneToMany(mappedBy = "scientist", fetch = FetchType.LAZY)
     private List<ProjectParticipant> projectParticipants;
 
-    @OneToMany(mappedBy = "scientist", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "scientist", fetch = FetchType.EAGER)
     private List<WorkHistory> workHistories;
 
-    @OneToMany(mappedBy = "scientist", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "scientist", fetch = FetchType.EAGER)
     private List<EducationHistory> educationHistories;
     
     // Getters & Setters
