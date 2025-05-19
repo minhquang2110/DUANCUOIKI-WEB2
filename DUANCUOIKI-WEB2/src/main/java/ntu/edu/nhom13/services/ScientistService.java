@@ -50,4 +50,22 @@ public class ScientistService {
         return scientistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Scientist not found with id " + id));
     }
+
+
+
+    public List<Scientist> findAll() {
+        return scientistRepository.findAll();
+    }
+
+    public void save(Scientist scientist) {
+        scientistRepository.save(scientist);
+    }
+
+    public void deleteById(Integer id) {
+        scientistRepository.deleteById(id);
+    }
+
+    public boolean existsById(Integer id) {
+        return scientistRepository.existsById(id);
+    }
 }

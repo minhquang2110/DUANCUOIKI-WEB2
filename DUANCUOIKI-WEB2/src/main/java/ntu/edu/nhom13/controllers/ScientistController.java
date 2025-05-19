@@ -4,18 +4,16 @@ import ntu.edu.nhom13.entity.Article;
 import ntu.edu.nhom13.entity.Book;
 import ntu.edu.nhom13.entity.Project;
 import ntu.edu.nhom13.entity.Scientist;
-import ntu.edu.nhom13.services.ArticleService;
-import ntu.edu.nhom13.services.BookService;
-import ntu.edu.nhom13.services.EducationHistoryService;
-import ntu.edu.nhom13.services.ProjectService;
-import ntu.edu.nhom13.services.ScientistService;
-import ntu.edu.nhom13.services.WorkHistoryService;
+import ntu.edu.nhom13.services.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,16 +23,24 @@ public class ScientistController {
 
     @Autowired
     private ScientistService scientistService;
-    @Autowired
-    private ProjectService projectService;
-    @Autowired
-    private BookService bookService;
-    @Autowired
-    private ArticleService articleService;
-    @Autowired
-    private WorkHistoryService workHistoryService;
-    @Autowired
-    private EducationHistoryService educationHistoryService;
+    @Autowired private AccountService accountService;
+    @Autowired private DegreeService degreeService;
+    @Autowired private RankService rankService;
+    @Autowired private TitleService titleService;
+    @Autowired private ResearchFieldService researchFieldService;
+    @Autowired private OrganizationService organizationService;
+    @Autowired private LanguageLevelService languageLevelService;
+    @Autowired private WorkHistoryService workHistoryService;
+    @Autowired private EducationHistoryService educationHistoryService;
+    @Autowired private BookAuthorService bookAuthorService;
+    @Autowired private ArticleAuthorService articleAuthorService;
+    @Autowired private ProjectParticipantService projectParticipantService;
+    @Autowired private ProjectService projectService;
+    @Autowired private BookService bookService;
+    @Autowired private ArticleService articleService;
+
+
+
     @GetMapping("/scientists")
     public String listScientists(Model model) {
         List<Scientist> scientists = scientistService.getAllScientists();
@@ -91,5 +97,51 @@ public class ScientistController {
         model.addAttribute("articles", articles);
         return "articles_list";
     }
+
+    ////////////
+
+
+    @GetMapping("/admin/scientistList")
+    public String showScientists(Model model) {
+        model.addAttribute("scientists", scientistService.findAll());
+        return "admin/scientistList";
+    }
+
+    @GetMapping("/createScientist")
+    public String showCreateForm(Model model) {
+        model.addAttribute("scientist", new Scientist());
+        model.addAttribute("accounts", accountService.findAll());
+        model.addAttribute("degrees", degreeService.findAll());
+        model.addAttribute("ranks", rankService.findAll());
+        model.addAttribute("titles", titleService.findAll());
+        model.addAttribute("fields", researchFieldService.findAll());
+        model.addAttribute("organizations", organizationService.findAll());
+        model.addAttribute("languageLevels", languageLevelService.findAll());
+        return "admin/createScientist";
+    }
+
+    @PostMapping("/create/save")
+    public String createScientist(@ModelAttribute Scientist scientist, RedirectAttributes redirectAttributes) {
+        if (scientistService.existsById(scientist.getId())) {
+            redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
+            return "redirect:admin/createScientist";
+        }
+        scientistService.save(scientist);
+        redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");
+        return "redirect:/admin/scientistList";
+    }
+
+    @GetMapping("/delete/scientist/{id}")
+    public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (!scientistService.existsById(id)) {
+            redirectAttributes.addFlashAttribute("error", "Scientist không tồn tại!");
+        } else {
+            scientistService.deleteById(id);
+            redirectAttributes.addFlashAttribute("success", "Xóa Scientist thành công!");
+        }
+        return "redirect:/admin/scientistList";
+    }
+
+
 
 }

@@ -29,4 +29,8 @@ public class ResearchFieldService {
     public void deleteResearchField(Integer id) {
         researchFieldRepository.deleteById(id);
     }
+
+    public List<ResearchField> findAll() {
+        return researchFieldRepository.findAll();
+    }
 }

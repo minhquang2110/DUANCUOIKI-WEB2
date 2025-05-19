@@ -33,4 +33,9 @@ public class AccountService {
     public Account findByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
+
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
 }
+

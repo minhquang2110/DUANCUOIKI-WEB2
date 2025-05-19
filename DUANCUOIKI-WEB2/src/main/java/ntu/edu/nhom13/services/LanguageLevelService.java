@@ -29,4 +29,8 @@ public class LanguageLevelService {
     public void deleteLanguageLevel(Integer id) {
         languageLevelRepository.deleteById(id);
     }
+
+    public List<LanguageLevel> findAll() {
+        return languageLevelRepository.findAll();
+    }
 }

@@ -29,4 +29,8 @@ public class DegreeService {
     public void deleteDegree(Integer id) {
         degreeRepository.deleteById(id);
     }
+
+    public List<Degree> findAll() {
+        return degreeRepository.findAll();
+    }
 }

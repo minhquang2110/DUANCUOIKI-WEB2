@@ -29,4 +29,8 @@ public class BookAuthorService {
     public void deleteBookAuthor(Integer id) {
         bookAuthorRepository.deleteById(id);
     }
+
+    public List<BookAuthor> findAll() {
+        return bookAuthorRepository.findAll();
+    }
 }

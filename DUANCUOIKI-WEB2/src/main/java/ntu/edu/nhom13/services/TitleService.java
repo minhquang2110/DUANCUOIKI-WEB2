@@ -29,4 +29,8 @@ public class TitleService {
     public void deleteTitle(Integer id) {
         titleRepository.deleteById(id);
     }
+
+    public List<Title> findAll() {
+        return titleRepository.findAll();
+    }
 }

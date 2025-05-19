@@ -29,4 +29,8 @@ public class RankService {
     public void deleteRank(Integer id) {
         rankRepository.deleteById(id);
     }
+
+    public List<Rank> findAll() {
+        return rankRepository.findAll();
+    }
 }

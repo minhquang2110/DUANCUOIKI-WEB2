@@ -29,4 +29,8 @@ public class OrganizationService {
     public void deleteOrganization(Integer id) {
         organizationRepository.deleteById(id);
     }
+
+    public List<Organization> findAll() {
+        return organizationRepository.findAll();
+    }
 }
