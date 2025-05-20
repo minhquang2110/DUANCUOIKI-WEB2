@@ -129,7 +129,7 @@ public class ScientistController {
         return "scientist/scientistList";
     }
 
-    @GetMapping("/createScientist")
+    @GetMapping("/scientist/createScientist")
     public String showCreateForm(Model model) {
         model.addAttribute("scientist", new Scientist());
         model.addAttribute("accounts", accountService.findAll());
@@ -142,13 +142,11 @@ public class ScientistController {
         return "scientist/createScientist";
     }
 
-    @PostMapping("/create/save")
+    @PostMapping("/scientist/create/save")
     public String createScientist(@ModelAttribute Scientist scientist, RedirectAttributes redirectAttributes) {
-
-
         if (scientistService.existsById(scientist.getId())) {
             redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
-            return "redirect:scientist/createScientist";
+            return "redirect:/scientist/createScientist";
         }
         scientistService.save(scientist);
         redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");

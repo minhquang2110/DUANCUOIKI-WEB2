@@ -32,7 +32,7 @@
 
 <div class="container">
     <h2>Tạo mới Scientist</h2>
-    <form th:action="@{/create/save}" th:object="${scientist}" method="post">
+    <form th:action="@{/scientist/create/save}" th:object="${scientist}" method="post">
 
         <label>ID:</label>
         <input type="number" th:field="*{id}" required/><br/>
