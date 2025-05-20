@@ -37,20 +37,18 @@
                 <div class="col-md-3">
                     <input name="keyword" type="text" class="form-control" placeholder="Tìm kiếm tên nhà khoa học" th:value="${keyword}" />
                 </div>
-				<div class="col-md-2">
-				    <select name="researchFieldId" class="form-select">
-				        <option value="" selected>Lĩnh Vực Nghiên Cứu</option>
-				        <option th:each="field : ${researchfields}" th:value="${field.id}"
-				                th:text="${field.name}" th:selected="${field.id == researchFieldId}"></option>
-				    </select>
-				</div>
-				<div class="col-md-2">
-				    <select name="degreeId" class="form-select">
-				        <option value="" selected>Học vị</option>
-				        <option th:each="degree : ${degrees}" th:value="${degree.id}"
-				                th:text="${degree.name}" th:selected="${degree.id == degreeId}"></option>
-				    </select>
-				</div>
+                <div class="col-md-2">
+                    <select name="organizationId" class="form-select">
+                        <option value="" selected>Đơn vị</option>
+                        <option th:each="org : ${organizations}" th:value="${org.id}" th:text="${org.name}" th:selected="${org.id == organizationId}"></option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="rankId" class="form-select">
+                        <option value="" selected>Ngạch</option>
+                        <option th:each="rank : ${ranks}" th:value="${rank.id}" th:text="${rank.name}" th:selected="${rank.id == rankId}"></option>
+                    </select>
+                </div>
                 <div class="col-md-2">
                     <select name="titleId" class="form-select">
                         <option value="" selected>Chức danh</option>

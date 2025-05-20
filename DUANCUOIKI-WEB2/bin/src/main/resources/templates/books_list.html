@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Danh sách Sách</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+<header th:replace="~{layout :: header}"></header>
+<nav th:replace="~{layout :: menu}"></nav>
+<div class="container mt-4">
+    <h2>Danh sách Sách</h2>
+    <table class="table table-striped table-bordered table-hover mt-3">
+        <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Tiêu đề</th>
+                <th>Loại</th>
+                <th>Lĩnh vực nghiên cứu</th>
+                <th>Nhà xuất bản</th>
+                <th>Ngày xuất bản</th>
+                <th>Đính kèm</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${books}">
+                <td th:text="${b.id}"></td>
+                <td th:text="${b.title}"></td>
+                <td th:text="${b.type}"></td>
+                <td th:text="${b.researchFields}"></td>
+                <td th:text="${b.publisher}"></td>
+                <td th:text="${b.publishDate != null} ? ${#temporals.format(b	.publishDate, 'yyyy-MM-dd')} : 'N/A'"></td>
+                <td>
+                    <a th:if="${b.attachment != null}" th:href="@{${b.attachment}}" target="_blank">File</a>
+                    <span th:if="${b.attachment == null}">-</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{layout :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
