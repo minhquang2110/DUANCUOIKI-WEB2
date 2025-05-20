@@ -2,6 +2,8 @@ package ntu.edu.nhom13.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ntu.edu.nhom13.entity.Article;
 import ntu.edu.nhom13.entity.ArticleAuthor;
 import ntu.edu.nhom13.repositories.ArticleAuthorRepository;
 
@@ -28,5 +30,9 @@ public class ArticleAuthorService {
 
     public void deleteArticleAuthor(Integer id) {
         articleAuthorRepository.deleteById(id);
+    }
+    
+    public List<Article> getArticlesByAuthorId(Integer authorId) {
+        return articleAuthorRepository.findArticlesByScientistId(authorId);
     }
 }

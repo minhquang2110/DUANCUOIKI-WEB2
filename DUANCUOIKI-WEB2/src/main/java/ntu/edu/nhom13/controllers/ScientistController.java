@@ -1,10 +1,15 @@
 package ntu.edu.nhom13.controllers;
 
-import ntu.edu.nhom13.entity.Article;
-import ntu.edu.nhom13.entity.Book;
-import ntu.edu.nhom13.entity.Project;
-import ntu.edu.nhom13.entity.Scientist;
+import ntu.edu.nhom13.entity.*;
 import ntu.edu.nhom13.services.*;
+import ntu.edu.nhom13.services.ArticleAuthorService;
+import ntu.edu.nhom13.services.ArticleService;
+import ntu.edu.nhom13.services.BookService;
+import ntu.edu.nhom13.services.EducationHistoryService;
+import ntu.edu.nhom13.services.ProjectParticipantService;
+import ntu.edu.nhom13.services.ProjectService;
+import ntu.edu.nhom13.services.ScientistService;
+import ntu.edu.nhom13.services.WorkHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +48,15 @@ public class ScientistController {
 
 
 
+
+    @GetMapping("/scientists/profile")
+    public String profileScientist(Model model,HttpSession session) {
+    	Scientist account = (Scientist) session.getAttribute("user");
+    	model.addAttribute("scientist",account);
+    	return "details_scientist";
+    }
+
+
     @GetMapping("/scientists")
     public String listScientists(Model model) {
         List<Scientist> scientists = scientistService.getAllScientists();
@@ -58,6 +74,10 @@ public class ScientistController {
         model.addAttribute("scientist", s);
         model.addAttribute("workHistories", workHistoryService.findByScientistId(id));
         model.addAttribute("educationHistories", educationHistoryService.findByScientistId(id));
+        model.addAttribute("pro", projectParticipantService.findByScientistId(id).size());
+        model.addAttribute("bo", bookService.findByScientistId(id).size());
+        model.addAttribute("art", articleAuthorService.getArticlesByAuthorId(id).size());
+
         model.addAttribute("organization", s.getOrganization());
 
         int projectCount = projectService.countByScientistId(id);
@@ -77,7 +97,9 @@ public class ScientistController {
         List<Project> projects = projectService.findByScientistId(id);
         model.addAttribute("scientist", scientist);
         model.addAttribute("projects", projects);
-        return "projects_list";
+//        model.addAttribute("projects", projectService.findByScientistId(id));
+        model.addAttribute("scientistId", id);
+        return "projects_list"; // view liệt kê project của scientist
     }
     
     @GetMapping("scientists/{id}/books")
@@ -101,10 +123,10 @@ public class ScientistController {
     ////////////
 
 
-    @GetMapping("/admin/scientistList")
+    @GetMapping("/scientist/scientistList")
     public String showScientists(Model model) {
         model.addAttribute("scientists", scientistService.findAll());
-        return "admin/scientistList";
+        return "scientist/scientistList";
     }
 
     @GetMapping("/createScientist")
@@ -117,18 +139,20 @@ public class ScientistController {
         model.addAttribute("fields", researchFieldService.findAll());
         model.addAttribute("organizations", organizationService.findAll());
         model.addAttribute("languageLevels", languageLevelService.findAll());
-        return "admin/createScientist";
+        return "scientist/createScientist";
     }
 
     @PostMapping("/create/save")
     public String createScientist(@ModelAttribute Scientist scientist, RedirectAttributes redirectAttributes) {
+
+
         if (scientistService.existsById(scientist.getId())) {
             redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
-            return "redirect:admin/createScientist";
+            return "redirect:scientist/createScientist";
         }
         scientistService.save(scientist);
         redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");
-        return "redirect:/admin/scientistList";
+        return "redirect:/scientist/scientistList";
     }
 
     @GetMapping("/delete/scientist/{id}")
@@ -139,7 +163,7 @@ public class ScientistController {
             scientistService.deleteById(id);
             redirectAttributes.addFlashAttribute("success", "Xóa Scientist thành công!");
         }
-        return "redirect:/admin/scientistList";
+        return "redirect:/scientist/scientistList";
     }
 
 
