@@ -1,6 +1,9 @@
 package ntu.edu.nhom13.controllers;
 
 import ntu.edu.nhom13.entity.*;
+import ntu.edu.nhom13.repositories.DegreeRepository;
+import ntu.edu.nhom13.repositories.ResearchFieldRepository;
+import ntu.edu.nhom13.repositories.TitleRepository;
 import ntu.edu.nhom13.services.*;
 import ntu.edu.nhom13.services.ArticleAuthorService;
 import ntu.edu.nhom13.services.ArticleService;
@@ -18,12 +21,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class ScientistController {
@@ -47,7 +53,47 @@ public class ScientistController {
     @Autowired private ArticleService articleService;
 
 
+    @Autowired
+    private DegreeRepository degreeRepository;
 
+    @Autowired
+    private TitleRepository titleRepository;
+
+    @Autowired
+    private ResearchFieldRepository researchFieldRepository;
+    
+    @GetMapping("/scientists")
+    public String listScientists(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Integer degreeId,
+            @RequestParam(required = false) Integer titleId,
+            @RequestParam(required = false) Integer researchFieldId,
+            Model model
+    ) {
+        // Xử lý filter lĩnh vực cha -> con 
+        Set<Integer> researchFieldIds = new HashSet<>();
+        if (researchFieldId != null) {
+            researchFieldIds.add(researchFieldId);
+            List<ResearchField> children = researchFieldRepository.findByParentFieldId(researchFieldId);
+            for (ResearchField rf : children) {
+                researchFieldIds.add(rf.getId());
+            }
+        }
+
+        List<Scientist> scientists = scientistService.filterScientists(keyword, degreeId, titleId, researchFieldId);
+
+        model.addAttribute("scientists", scientists);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("degreeId", degreeId);
+        model.addAttribute("titleId", titleId);
+        model.addAttribute("researchFieldId", researchFieldId);
+
+        model.addAttribute("degrees", degreeRepository.findAll());
+        model.addAttribute("titles", titleRepository.findAll());
+        model.addAttribute("researchfields", researchFieldRepository.findAll());
+
+        return "scientists"; 
+    }
 
     @GetMapping("/scientists/profile")
     public String profileScientist(Model model,HttpSession session) {
@@ -56,14 +102,6 @@ public class ScientistController {
     	return "details_scientist";
     }
 
-
-    @GetMapping("/scientists")
-    public String listScientists(Model model) {
-        List<Scientist> scientists = scientistService.getAllScientists();
-        model.addAttribute("scientists", scientists);
-        return "scientists";  
-    }
-    
     @GetMapping("scientists/details/{id}")
     public String showScientistDetails(@PathVariable Integer id, Model model) {
         Optional<Scientist> scientistOpt = scientistService.getScientistById(id);
