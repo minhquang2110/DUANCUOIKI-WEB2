@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Danh sách Nhà khoa học</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .card:hover {
+            box-shadow: 4px 4px 12px #555;
+            cursor: pointer;
+        }
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .card-text span {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<nav th:replace="~{layout :: menu}"></nav>
+
+<div class="container">
+    <h2>Tạo mới Scientist</h2>
+    <form th:action="@{/create/save}" th:object="${scientist}" method="post">
+
+        <label>ID:</label>
+        <input type="number" th:field="*{id}" required/><br/>
+
+        <label>Họ tên:</label>
+        <input type="text" th:field="*{fullName}" required/><br/>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required/><br/>
+
+        <label>Giới tính:</label>
+        <select th:field="*{gender}">
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+        </select><br/>
+
+        <label>Năm sinh:</label>
+        <input type="number" th:field="*{birthYear}" required/><br/>
+
+        <label>Địa chỉ:</label>
+        <input type="text" th:field="*{address}" required/><br/>
+
+        <label>Ảnh:</label>
+        <input type="text" th:field="*{image}"/><br/>
+
+        <label>SĐT:</label>
+        <input type="text" th:field="*{phoneNumber}"/><br/>
+
+        <label>Chuyên ngành:</label>
+        <input type="text" th:field="*{major}"/><br/>
+
+        <label>Chuyên ngành phụ:</label>
+        <input type="text" th:field="*{subMajor}"/><br/>
+
+        <label>Chuyên môn giảng dạy:</label>
+        <input type="text" th:field="*{teachingSpecialty}"/><br/>
+
+        <!-- Dropdown cho các FK -->
+        <label>Tài khoản (account):</label>
+        <select th:field="*{account}">
+            <option th:each="a : ${accounts}" th:value="${a}" th:text="${a.username}"></option>
+        </select><br/>
+
+        <label>Bằng cấp (degree):</label>
+        <select th:field="*{degree}">
+            <option th:each="d : ${degrees}" th:value="${d}" th:text="${d.name}"></option>
+        </select><br/>
+
+        <label>Học hàm (rank):</label>
+        <select th:field="*{rank}">
+            <option th:each="r : ${ranks}" th:value="${r}" th:text="${r.name}"></option>
+        </select><br/>
+
+        <label>Học vị (title):</label>
+        <select th:field="*{title}">
+            <option th:each="t : ${titles}" th:value="${t}" th:text="${t.name}"></option>
+        </select><br/>
+
+        <label>Lĩnh vực nghiên cứu:</label>
+        <select th:field="*{researchField}">
+            <option th:each="f : ${fields}" th:value="${f}" th:text="${f.name}"></option>
+        </select><br/>
+
+        <label>Đơn vị công tác:</label>
+        <select th:field="*{organization}">
+            <option th:each="o : ${organizations}" th:value="${o}" th:text="${o.name}"></option>
+        </select><br/>
+
+        <label>Trình độ ngoại ngữ:</label>
+        <select th:field="*{languageLevel}">
+            <option th:each="l : ${languageLevels}" th:value="${l}" th:text="${l.name}"></option>
+        </select><br/>
+
+        <button type="submit">Tạo</button>
+    </form>
+    <a th:href="@{/admin/scientists}">Về danh sách</a>
+</div>
+
+<footer th:replace="~{layout :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
