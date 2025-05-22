@@ -8,26 +8,39 @@ import ntu.edu.nhom13.dto.ScientistDTO;
 import ntu.edu.nhom13.entity.Account;
 import ntu.edu.nhom13.entity.Account.Role;
 import ntu.edu.nhom13.entity.Book;
+<<<<<<< HEAD
 import ntu.edu.nhom13.entity.Degree;
 import ntu.edu.nhom13.entity.LanguageLevel;
 import ntu.edu.nhom13.entity.Organization;
 import ntu.edu.nhom13.entity.Rank;
+=======
+>>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
 import ntu.edu.nhom13.entity.ResearchField;
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.entity.Title;
 import ntu.edu.nhom13.repositories.AccountRepository;
 import ntu.edu.nhom13.repositories.BookRepository;
+<<<<<<< HEAD
 import ntu.edu.nhom13.repositories.DegreeRepository;
 import ntu.edu.nhom13.repositories.LanguageLevelRepository;
 import ntu.edu.nhom13.repositories.OrganizationRepository;
 import ntu.edu.nhom13.repositories.RankRepository;
+=======
+>>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
 import ntu.edu.nhom13.repositories.ResearchFieldRepository;
 import ntu.edu.nhom13.repositories.ScientistRepository;
 import ntu.edu.nhom13.repositories.TitleRepository;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+<<<<<<< HEAD
 import java.util.Random;
+=======
+import java.util.Queue;
+import java.util.Set;
+>>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
 
 @Service
 public class ScientistService {
@@ -50,6 +63,9 @@ public class ScientistService {
     
     @Autowired
     private BookRepository bookRepository;
+    
+    @Autowired
+    private ResearchFieldRepository researchFieldRepository;
     
     public List<Scientist> getAllScientists() {
         return scientistRepository.findAll();
@@ -119,12 +135,9 @@ public class ScientistService {
     }
 
     public Scientist findById(Integer id) {
-        // Trả về thông tin nhà khoa học hoặc ném exception nếu không tìm thấy
         return scientistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Scientist not found with id " + id));
     }
-
-
 
     public List<Scientist> findAll() {
         return scientistRepository.findAll();
@@ -146,4 +159,30 @@ public class ScientistService {
     	return bookRepository.findByScientistId(id);
     }
 
+    public List<Scientist> filterScientists(String keyword, Integer degreeId, Integer titleId, Integer researchFieldId) {
+        Set<Integer> researchFieldIds = null;
+
+        if (researchFieldId != null) {
+            researchFieldIds = getAllRelatedResearchFieldIds(researchFieldId);
+        }
+
+        return scientistRepository.filter(keyword, degreeId, titleId, researchFieldIds);
+    }
+
+    private Set<Integer> getAllRelatedResearchFieldIds(Integer rootId) {
+        Set<Integer> ids = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(rootId);
+
+        while (!queue.isEmpty()) {
+            Integer current = queue.poll();
+            if (ids.add(current)) {
+                List<ResearchField> children = researchFieldRepository.findByParentFieldId(current);
+                for (ResearchField child : children) {
+                    queue.add(child.getId());
+                }
+            }
+        }
+        return ids;
+    }
 }
