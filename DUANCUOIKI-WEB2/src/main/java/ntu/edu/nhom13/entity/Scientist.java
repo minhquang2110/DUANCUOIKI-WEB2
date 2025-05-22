@@ -16,66 +16,6 @@ public class Scientist {
     @JoinColumn(name = "account_id", referencedColumnName = "account_id") 
     private Account account;
 
-    /**
-	 * @return the bookAuthors
-	 */
-	public List<BookAuthor> getBookAuthors() {
-		return bookAuthors;
-	}
-	/**
-	 * @param bookAuthors the bookAuthors to set
-	 */
-	public void setBookAuthors(List<BookAuthor> bookAuthors) {
-		this.bookAuthors = bookAuthors;
-	}
-	/**
-	 * @return the articleAuthors
-	 */
-	public List<ArticleAuthor> getArticleAuthors() {
-		return articleAuthors;
-	}
-	/**
-	 * @param articleAuthors the articleAuthors to set
-	 */
-	public void setArticleAuthors(List<ArticleAuthor> articleAuthors) {
-		this.articleAuthors = articleAuthors;
-	}
-	/**
-	 * @return the projectParticipants
-	 */
-	public List<ProjectParticipant> getProjectParticipants() {
-		return projectParticipants;
-	}
-	/**
-	 * @param projectParticipants the projectParticipants to set
-	 */
-	public void setProjectParticipants(List<ProjectParticipant> projectParticipants) {
-		this.projectParticipants = projectParticipants;
-	}
-	/**
-	 * @return the workHistories
-	 */
-	public List<WorkHistory> getWorkHistories() {
-		return workHistories;
-	}
-	/**
-	 * @param workHistories the workHistories to set
-	 */
-	public void setWorkHistories(List<WorkHistory> workHistories) {
-		this.workHistories = workHistories;
-	}
-	/**
-	 * @return the educationHistories
-	 */
-	public List<EducationHistory> getEducationHistories() {
-		return educationHistories;
-	}
-	/**
-	 * @param educationHistories the educationHistories to set
-	 */
-	public void setEducationHistories(List<EducationHistory> educationHistories) {
-		this.educationHistories = educationHistories;
-	}
     @Column(name = "full_name")
     private String fullName;
 
@@ -254,5 +194,66 @@ public class Scientist {
     public void setTeachingSpecialty(String teachingSpecialty) {
         this.teachingSpecialty = teachingSpecialty;
     }
+    
+    /**
+   	 * @return the bookAuthors
+   	 */
+   	public List<BookAuthor> getBookAuthors() {
+   		return bookAuthors;
+   	}
+   	/**
+   	 * @param bookAuthors the bookAuthors to set
+   	 */
+   	public void setBookAuthors(List<BookAuthor> bookAuthors) {
+   		this.bookAuthors = bookAuthors;
+   	}
+   	/**
+   	 * @return the articleAuthors
+   	 */
+   	public List<ArticleAuthor> getArticleAuthors() {
+   		return articleAuthors;
+   	}
+   	/**
+   	 * @param articleAuthors the articleAuthors to set
+   	 */
+   	public void setArticleAuthors(List<ArticleAuthor> articleAuthors) {
+   		this.articleAuthors = articleAuthors;
+   	}
+   	/**
+   	 * @return the projectParticipants
+   	 */
+   	public List<ProjectParticipant> getProjectParticipants() {
+   		return projectParticipants;
+   	}
+   	/**
+   	 * @param projectParticipants the projectParticipants to set
+   	 */
+   	public void setProjectParticipants(List<ProjectParticipant> projectParticipants) {
+   		this.projectParticipants = projectParticipants;
+   	}
+   	/**
+   	 * @return the workHistories
+   	 */
+   	public List<WorkHistory> getWorkHistories() {
+   		return workHistories;
+   	}
+   	/**
+   	 * @param workHistories the workHistories to set
+   	 */
+   	public void setWorkHistories(List<WorkHistory> workHistories) {
+   		this.workHistories = workHistories;
+   	}
+   	/**
+   	 * @return the educationHistories
+   	 */
+   	public List<EducationHistory> getEducationHistories() {
+   		return educationHistories;
+   	}
+   	/**
+   	 * @param educationHistories the educationHistories to set
+   	 */
+   	public void setEducationHistories(List<EducationHistory> educationHistories) {
+   		this.educationHistories = educationHistories;
+   	}
 }
 

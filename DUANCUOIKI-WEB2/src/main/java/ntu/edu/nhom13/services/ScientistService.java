@@ -4,19 +4,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import ntu.edu.nhom13.dto.ScientistDTO;
+import ntu.edu.nhom13.entity.Account;
+import ntu.edu.nhom13.entity.Account.Role;
 import ntu.edu.nhom13.entity.Book;
+import ntu.edu.nhom13.entity.Degree;
+import ntu.edu.nhom13.entity.LanguageLevel;
+import ntu.edu.nhom13.entity.Organization;
+import ntu.edu.nhom13.entity.Rank;
+import ntu.edu.nhom13.entity.ResearchField;
 import ntu.edu.nhom13.entity.Scientist;
+import ntu.edu.nhom13.entity.Title;
+import ntu.edu.nhom13.repositories.AccountRepository;
 import ntu.edu.nhom13.repositories.BookRepository;
+import ntu.edu.nhom13.repositories.DegreeRepository;
+import ntu.edu.nhom13.repositories.LanguageLevelRepository;
+import ntu.edu.nhom13.repositories.OrganizationRepository;
+import ntu.edu.nhom13.repositories.RankRepository;
+import ntu.edu.nhom13.repositories.ResearchFieldRepository;
 import ntu.edu.nhom13.repositories.ScientistRepository;
+import ntu.edu.nhom13.repositories.TitleRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class ScientistService {
-
     @Autowired
     private ScientistRepository scientistRepository;
+    @Autowired
+    private DegreeRepository degree;
+    @Autowired
+    private RankRepository rankRepository;
+    @Autowired
+    private TitleRepository titleRepository;
+    @Autowired
+    private ResearchFieldRepository researchFieldRepository;
+    @Autowired
+    private OrganizationRepository organizationRepository;
+    @Autowired
+    private  LanguageLevelRepository languageLevelRepository;
+    @Autowired
+    private  AccountRepository accountRepository;
     
     @Autowired
     private BookRepository bookRepository;
@@ -32,8 +62,43 @@ public class ScientistService {
         return scientistRepository.findById(id);
     }
 
-    public Scientist saveScientist(Scientist scientist) {
-        return scientistRepository.save(scientist);
+    public Scientist saveScientist(ScientistDTO scientist) {
+    	Scientist sc=new Scientist();
+    	Account account=new Account();
+    	Degree de=degree.getById(Integer.parseInt(scientist.getDegree()));
+    	Rank ra=rankRepository.getById(Integer.parseInt(scientist.getRank()));
+    	Title ti=titleRepository.getById(Integer.parseInt(scientist.getTitle()));
+    	ResearchField re=researchFieldRepository.getById(Integer.parseInt(scientist.getResearchField()));
+    	Organization or=organizationRepository.getById(Integer.parseInt(scientist.getOrganization()));
+    	LanguageLevel la=languageLevelRepository.getById(Integer.parseInt(scientist.getLanguageLevel()));
+    	int num=(int) scientistRepository.count();
+    	sc.setId(num+1);
+    	sc.setAccount(account);
+    	sc.setAddress(scientist.getAddress());
+    	sc.setFullName(scientist.getFullName());
+    	sc.setGender(scientist.getGender());
+    	sc.setBirthYear(scientist.getBirthYear());
+    	sc.setImage(scientist.getImageUrl());
+    	sc.setPhoneNumber(scientist.getPhone());
+    	sc.setEmail(scientist.getEmail());
+    	sc.setDegree(de);
+    	sc.setRank(ra);
+    	sc.setTitle(ti);
+    	sc.setResearchField(re);
+    	sc.setOrganization(or);
+    	sc.setLanguageLevel(la);
+    	sc.setMajor(scientist.getMajor());
+    	sc.setSubMajor(scientist.getSubMajor());
+    	sc.setTeachingSpecialty(scientist.getTeachingSpecialty());
+    	String base = scientist.getFullName().toLowerCase().replaceAll("\\s+", "");
+        int random = new Random().nextInt(900) + 100; 
+    	account.setUsername(base);
+    	account.setPassword("1");
+    	account.setRole(Role.Scientist);
+    	accountRepository.save(account);
+    	
+    	
+        return scientistRepository.save(sc);
     }
 
     public void deleteScientist(Integer id) {
@@ -65,9 +130,9 @@ public class ScientistService {
         return scientistRepository.findAll();
     }
 
-    public void save(Scientist scientist) {
-        scientistRepository.save(scientist);
-    }
+//    public void save(ScientistDTO scientist) {
+//        scientistRepository.save(scientist);
+//    }
 
     public void deleteById(Integer id) {
         scientistRepository.deleteById(id);

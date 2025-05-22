@@ -1,5 +1,6 @@
 package ntu.edu.nhom13.controllers;
 
+import ntu.edu.nhom13.dto.ScientistDTO;
 import ntu.edu.nhom13.entity.*;
 import ntu.edu.nhom13.services.*;
 import ntu.edu.nhom13.services.ArticleAuthorService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
@@ -131,28 +133,22 @@ public class ScientistController {
 
     @GetMapping("/createScientist")
     public String showCreateForm(Model model) {
-        model.addAttribute("scientist", new Scientist());
-        model.addAttribute("accounts", accountService.findAll());
-        model.addAttribute("degrees", degreeService.findAll());
-        model.addAttribute("ranks", rankService.findAll());
-        model.addAttribute("titles", titleService.findAll());
-        model.addAttribute("fields", researchFieldService.findAll());
-        model.addAttribute("organizations", organizationService.findAll());
-        model.addAttribute("languageLevels", languageLevelService.findAll());
+    	 model.addAttribute("scientist", new ScientistDTO());
         return "scientist/createScientist";
     }
 
     @PostMapping("/create/save")
-    public String createScientist(@ModelAttribute Scientist scientist, RedirectAttributes redirectAttributes) {
-
-
-        if (scientistService.existsById(scientist.getId())) {
-            redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
-            return "redirect:scientist/createScientist";
-        }
-        scientistService.save(scientist);
-        redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");
-        return "redirect:/scientist/scientistList";
+    public String createScientist( @ModelAttribute ScientistDTO scientist) {
+//        if (scientistService.existsById(scientist.getId())) {
+//            redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
+//            return "redirect:scientist/createScientist";
+//        }
+//        scientistService.save(scientist);
+//        redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");
+//    	System.out.println(scientist.toString());
+    	scientistService.saveScientist(scientist);
+    	
+        return "/users/login";
     }
 
     @GetMapping("/delete/scientist/{id}")
