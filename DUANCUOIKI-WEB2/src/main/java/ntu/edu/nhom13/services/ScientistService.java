@@ -8,25 +8,19 @@ import ntu.edu.nhom13.dto.ScientistDTO;
 import ntu.edu.nhom13.entity.Account;
 import ntu.edu.nhom13.entity.Account.Role;
 import ntu.edu.nhom13.entity.Book;
-<<<<<<< HEAD
 import ntu.edu.nhom13.entity.Degree;
 import ntu.edu.nhom13.entity.LanguageLevel;
 import ntu.edu.nhom13.entity.Organization;
 import ntu.edu.nhom13.entity.Rank;
-=======
->>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
 import ntu.edu.nhom13.entity.ResearchField;
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.entity.Title;
 import ntu.edu.nhom13.repositories.AccountRepository;
 import ntu.edu.nhom13.repositories.BookRepository;
-<<<<<<< HEAD
 import ntu.edu.nhom13.repositories.DegreeRepository;
 import ntu.edu.nhom13.repositories.LanguageLevelRepository;
 import ntu.edu.nhom13.repositories.OrganizationRepository;
 import ntu.edu.nhom13.repositories.RankRepository;
-=======
->>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
 import ntu.edu.nhom13.repositories.ResearchFieldRepository;
 import ntu.edu.nhom13.repositories.ScientistRepository;
 import ntu.edu.nhom13.repositories.TitleRepository;
@@ -35,12 +29,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-<<<<<<< HEAD
 import java.util.Random;
-=======
 import java.util.Queue;
 import java.util.Set;
->>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
 
 @Service
 public class ScientistService {
@@ -52,8 +43,7 @@ public class ScientistService {
     private RankRepository rankRepository;
     @Autowired
     private TitleRepository titleRepository;
-    @Autowired
-    private ResearchFieldRepository researchFieldRepository;
+  
     @Autowired
     private OrganizationRepository organizationRepository;
     @Autowired

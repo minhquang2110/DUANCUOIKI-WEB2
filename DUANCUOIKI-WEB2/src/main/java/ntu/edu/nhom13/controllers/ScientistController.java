@@ -174,31 +174,13 @@ public class ScientistController {
         return "scientist/createScientist";
     }
 
-<<<<<<< HEAD
     @PostMapping("/create/save")
     public String createScientist( @ModelAttribute ScientistDTO scientist) {
-//        if (scientistService.existsById(scientist.getId())) {
-//            redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
-//            return "redirect:scientist/createScientist";
-//        }
-//        scientistService.save(scientist);
-//        redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");
-//    	System.out.println(scientist.toString());
     	scientistService.saveScientist(scientist);
     	
         return "/users/login";
-=======
-    @PostMapping("/scientist/create/save")
-    public String createScientist(@ModelAttribute Scientist scientist, RedirectAttributes redirectAttributes) {
-        if (scientistService.existsById(scientist.getId())) {
-            redirectAttributes.addFlashAttribute("error", "ID đã tồn tại!");
-            return "redirect:/scientist/createScientist";
-        }
-        scientistService.save(scientist);
-        redirectAttributes.addFlashAttribute("success", "Tạo mới Scientist thành công!");
-        return "redirect:/scientist/scientistList";
->>>>>>> bc5c9e7399d0fd09f96b48fb59b82779c6d66f64
     }
+
 
     @GetMapping("/delete/scientist/{id}")
     public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
