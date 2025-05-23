@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
@@ -82,5 +83,47 @@ public class UserController{
 
 		return "users/forgot-password";
 	}
+
+
+	private boolean isValidPassword(String password) {
+		return password != null && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
+	}
+	@GetMapping("/change-password")
+	public String showChangePasswordForm() {
+		return "users/change-password"; // Trả về trang HTML chứa form
+	}
+
+
+	@PostMapping("/change-password")
+	public String changePassword(
+			@RequestParam("username") String username,
+			@RequestParam("currentPassword") String currentPassword,
+			@RequestParam("newPassword") String newPassword,
+			Model model
+	) {
+		Account account = accountService.findByUsername(username);
+
+		if (account == null) {
+			model.addAttribute("error", "❌ Tên đăng nhập không tồn tại.");
+			return "users/change-password";
+		}
+
+		if (!account.getPassword().equals(currentPassword)) {
+			model.addAttribute("error", "❌ Mật khẩu hiện tại không chính xác.");
+			return "users/change-password";
+		}
+
+		if (!isValidPassword(newPassword)) {
+			model.addAttribute("error", "❌ Mật khẩu mới phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường và số.");
+			return "users/change-password";
+		}
+
+		account.setPassword(newPassword);
+		accountService.saveAccount(account);
+
+		model.addAttribute("message", "✅ Đổi mật khẩu thành công.");
+		return "users/change-password";
+	}
+
 
 }
