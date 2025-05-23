@@ -58,4 +58,29 @@ public class UserController{
 		}
 		return "users/login";
 	}
+
+	@GetMapping("/forgot-password")
+	public String showForgotPasswordForm() {
+		return "users/forgot-password"; // trang HTML form reset mật khẩu
+	}
+
+	@GetMapping("/reset-password")
+	public String resetPassword(
+			@RequestParam("username") String username,
+			@RequestParam("newPassword") String newPassword,
+			Model model
+	) {
+		Account account = accountService.findByUsername(username);
+
+		if (account != null) {
+			account.setPassword(newPassword); // Nếu dùng mã hoá thì xử lý ở đây
+			accountService.saveAccount(account);
+			model.addAttribute("message", "Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại.");
+		} else {
+			model.addAttribute("error", "Không tìm thấy tài khoản với username đã nhập.");
+		}
+
+		return "users/forgot-password";
+	}
+
 }
