@@ -1,7 +1,6 @@
 package ntu.edu.nhom13.dto;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.MultipartFilter;
 
 public class ScientistDTO {
     private String fullName;

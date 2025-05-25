@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ntu.edu.nhom13.entity.Admin;
-import ntu.edu.nhom13.entity.Scientist;
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer> {

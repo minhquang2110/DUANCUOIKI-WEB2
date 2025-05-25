@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Thống kê hệ thống</title>
-
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -26,7 +22,6 @@
 <div class="container mt-4">
     <h1 class="mb-4 text-center">Thống kê Hệ thống</h1>
 
-    <!-- 1. Tổng quan -->
     <h3 class="mt-5 mb-3">1. Tổng quan</h3>
     <div class="row text-center">
         <div class="col-md-4 mb-3">
@@ -55,7 +50,6 @@
         </div>
     </div>
 
-    <!-- 2. Khoa học & học thuật -->
     <h3 class="mt-5 mb-3">2. Khoa học & học thuật</h3>
     <div class="row text-center">
         <div class="col-md-4 mb-3">
@@ -84,10 +78,8 @@
         </div>
     </div>
 
-    <!-- 3. Biểu đồ -->
     <h3 class="mt-5 mb-3">3. Biểu đồ phân tích</h3>
     <div class="row">
-        <!-- Biểu đồ tròn giới tính -->
         <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-body">
@@ -97,7 +89,6 @@
             </div>
         </div>
 
-        <!-- Biểu đồ cột ngạch -->
         <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-body">
@@ -114,11 +105,11 @@
 
 <!-- Chart.js scripts -->
 <script th:inline="javascript">
-    const genderData = /*[[${genderDistribution}]]*/ {};
+    const genderData = {};
     const genderLabels = Object.keys(genderData);
     const genderCounts = Object.values(genderData);
 
-    const rankData = /*[[${rankDistribution}]]*/ {};
+    const rankData = {};
     const rankLabels = Object.keys(rankData);
     const rankCounts = Object.values(rankData);
 
@@ -155,8 +146,8 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1,     // 👈 Bước nhảy là 1
-                        precision: 0     // 👈 Không có số thập phân
+                        stepSize: 1,    
+                        precision: 0    
                     }
                 }
             },

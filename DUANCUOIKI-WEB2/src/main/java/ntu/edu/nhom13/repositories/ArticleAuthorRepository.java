@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import ntu.edu.nhom13.entity.Article;
 import ntu.edu.nhom13.entity.ArticleAuthor;
-import ntu.edu.nhom13.entity.Project;
 
 @Repository
 public interface ArticleAuthorRepository extends JpaRepository<ArticleAuthor, Integer> {

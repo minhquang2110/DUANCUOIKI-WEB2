@@ -12,7 +12,7 @@
     <div th:fragment="header">
         <header class="d-flex justify-content-end align-items-center p-2 border-bottom">      
             <p><a href="http://ntu.edu.vn" target="_blank">Trường Đại học Nha Trang</a></p>  
-            <a th:href="@{/login}">Đăng Nhập</a>
+            <a th:href="@{/loginTemplate}">Đăng Nhập</a>
         </header>
     </div>
     <div th:fragment="menu">
@@ -31,9 +31,6 @@
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" th:href="@{/admin/scientistList}">Danh Sách Nhà Khoa Học (CRUD)</a>
-                        </li>
-                        <li class="nav-item" >
-                            <a class="nav-link" th:href="@{/admin/accounts/create}">Tạo Tài Khoản </a>
                         </li>
                         <li class="nav-item" >
                             <a class="nav-link" th:href="@{/statistics}">Thông Kê</a>

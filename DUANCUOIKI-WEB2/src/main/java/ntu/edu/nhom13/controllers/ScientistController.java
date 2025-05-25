@@ -5,7 +5,6 @@ import ntu.edu.nhom13.entity.*;
 import ntu.edu.nhom13.repositories.DegreeRepository;
 import ntu.edu.nhom13.repositories.ResearchFieldRepository;
 import ntu.edu.nhom13.repositories.TitleRepository;
-import ntu.edu.nhom13.services.*;
 import ntu.edu.nhom13.services.ArticleAuthorService;
 import ntu.edu.nhom13.services.ArticleService;
 import ntu.edu.nhom13.services.BookService;
@@ -23,15 +22,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -40,18 +35,9 @@ import java.util.Set;
 @Controller
 public class ScientistController {
 
-    @Autowired
-    private ScientistService scientistService;
-    @Autowired private AccountService accountService;
-    @Autowired private DegreeService degreeService;
-    @Autowired private RankService rankService;
-    @Autowired private TitleService titleService;
-    @Autowired private ResearchFieldService researchFieldService;
-    @Autowired private OrganizationService organizationService;
-    @Autowired private LanguageLevelService languageLevelService;
+    @Autowired private ScientistService scientistService;
     @Autowired private WorkHistoryService workHistoryService;
     @Autowired private EducationHistoryService educationHistoryService;
-    @Autowired private BookAuthorService bookAuthorService;
     @Autowired private ArticleAuthorService articleAuthorService;
     @Autowired private ProjectParticipantService projectParticipantService;
     @Autowired private ProjectService projectService;
@@ -100,14 +86,14 @@ public class ScientistController {
         model.addAttribute("titles", titleRepository.findAll());
         model.addAttribute("researchfields", researchFieldRepository.findAll());
 
-        return "scientists"; 
+        return "scientistsList"; 
     }
 
     @GetMapping("/scientists/profile")
     public String profileScientist(Model model,HttpSession session) {
     	Scientist account = (Scientist) session.getAttribute("user");
     	model.addAttribute("scientist",account);
-    	return "details_scientist";
+    	return "scientist/details_scientist";
     }
 
     @GetMapping("scientists/details/{id}")
@@ -134,7 +120,7 @@ public class ScientistController {
         model.addAttribute("bookCount", bookCount);
         model.addAttribute("articleCount", articleCount);
 
-        return "details_scientist"; 
+        return "scientist/details_scientist"; 
     }
 
     @GetMapping("scientists/{id}/projects")
@@ -145,7 +131,7 @@ public class ScientistController {
         model.addAttribute("projects", projects);
 //        model.addAttribute("projects", projectService.findByScientistId(id));
         model.addAttribute("scientistId", id);
-        return "projects_list"; // view liệt kê project của scientist
+        return "scientist/projects_list"; // view liệt kê project của scientist
     }
     
     @GetMapping("scientists/{id}/books")
@@ -154,7 +140,7 @@ public class ScientistController {
         List<Book> books = bookService.findByScientistId(id);
         model.addAttribute("scientist", scientist);
         model.addAttribute("books", books);
-        return "books_list";
+        return "scientist/books_list";
     }
 
     @GetMapping("scientists/{id}/articles")
@@ -163,22 +149,22 @@ public class ScientistController {
         List<Article> articles = articleService.findByScientistId(id);
         model.addAttribute("scientist", scientist);
         model.addAttribute("articles", articles);
-        return "articles_list";
+        return "scientist/articles_list";
     }
 
     ////////////
 
 
-    @GetMapping("/scientist/scientistList")
+    @GetMapping("/scientists/scientistList")
     public String showScientists(Model model) {
         model.addAttribute("scientists", scientistService.findAll());
-        return "scientist/scientistList";
+        return "admin/scientistList";
     }
 
-    @GetMapping("/scientist/createScientist")
+    @GetMapping("/scientists/createScientist")
     public String showCreateForm(Model model) {
     	 model.addAttribute("scientist", new ScientistDTO());
-        return "scientist/createScientist";
+        return "admin/createScientist";
     }
 
     @PostMapping("/create/save")
@@ -186,7 +172,6 @@ public class ScientistController {
     	scientistService.saveScientist(scientist);
         return "/users/login";
     }
-
 
     @GetMapping("/delete/scientist/{id}")
     public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
@@ -196,9 +181,6 @@ public class ScientistController {
             scientistService.deleteById(id);
             redirectAttributes.addFlashAttribute("success", "Xóa Scientist thành công!");
         }
-        return "redirect:/scientist/scientistList";
+        return "redirect:/admin/scientistList";
     }
-
-
-
 }

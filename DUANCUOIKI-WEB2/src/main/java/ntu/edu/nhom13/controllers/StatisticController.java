@@ -50,6 +50,6 @@ public class StatisticController {
                 ));
         model.addAttribute("rankDistribution", rankDistribution);
 
-        return "overview";
+        return "statistic";
     }
 }
