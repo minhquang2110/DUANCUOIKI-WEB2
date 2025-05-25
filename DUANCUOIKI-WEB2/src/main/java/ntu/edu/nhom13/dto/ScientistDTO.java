@@ -1,12 +1,15 @@
 package ntu.edu.nhom13.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MultipartFilter;
+
 public class ScientistDTO {
     private String fullName;
     private String email;
     private String gender;
     private Integer birthYear;
     private String address;
-    private String imageUrl;
+    private MultipartFile imageUrl;
     private String phone;
     private String major;
     private String subMajor;
@@ -60,11 +63,11 @@ public class ScientistDTO {
         this.address = address;
     }
 
-    public String getImageUrl() {
+    public MultipartFile getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(MultipartFile imageUrl) {
         this.imageUrl = imageUrl;
     }
 

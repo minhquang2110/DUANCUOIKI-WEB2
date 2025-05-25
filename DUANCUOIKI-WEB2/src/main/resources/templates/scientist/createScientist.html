@@ -24,7 +24,7 @@
 
 <div class="container mt-5">
     <h2 class="mb-4">Tạo nhà khoa học</h2>
-    <form th:action="@{/create/save}" th:object="${scientist}" method="post" class="row g-3">
+    <form th:action="@{/create/save}" th:object="${scientist}" method="post" enctype="multipart/form-data" class="row g-3">
 
 
         <div class="col-md-6">
@@ -57,7 +57,7 @@
 
         <div class="col-md-6">
             <label class="form-label">Ảnh (URL)</label>
-            <input type="text" class="form-control" th:field="*{imageUrl}"/>
+            <input type="file" class="form-control" th:field="*{imageUrl}"/>
         </div>
 
         <div class="col-md-6">
@@ -170,7 +170,6 @@
 	        <option value="5">Fluent</option>
 	    </select>
 	</div>
-	        
 
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Tạo</button>

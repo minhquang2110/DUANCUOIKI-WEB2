@@ -57,6 +57,7 @@
                         <option th:each="title : ${titles}" th:value="${title.id}" th:text="${title.name}" th:selected="${title.id == titleId}"></option>
                     </select>
                 </div>
+        
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-warning w-100">Lọc</button>
                 </div>

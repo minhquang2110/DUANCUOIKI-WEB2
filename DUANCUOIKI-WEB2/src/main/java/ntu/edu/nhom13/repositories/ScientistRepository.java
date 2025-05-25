@@ -14,7 +14,7 @@ public interface ScientistRepository extends JpaRepository<Scientist, Integer>, 
     Scientist findByEmail(String email);
 
     Optional<Scientist> findById(Integer id);
-
+    
     List<Scientist> findByFullNameContainingIgnoreCase(String keyword);
 
     @Query("""

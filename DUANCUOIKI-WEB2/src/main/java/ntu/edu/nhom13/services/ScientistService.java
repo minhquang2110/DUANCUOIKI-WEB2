@@ -1,7 +1,12 @@
 package ntu.edu.nhom13.services;
 
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 import jakarta.persistence.EntityNotFoundException;
 import ntu.edu.nhom13.dto.ScientistDTO;
@@ -25,6 +30,12 @@ import ntu.edu.nhom13.repositories.ResearchFieldRepository;
 import ntu.edu.nhom13.repositories.ScientistRepository;
 import ntu.edu.nhom13.repositories.TitleRepository;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +68,11 @@ public class ScientistService {
     @Autowired
     private ResearchFieldRepository researchFieldRepository;
     
+    @Autowired
+    private Cloudinary cloudinary;
+    
+    public static String UPLOAD_DIRECTORY = "/bin";
+
     public List<Scientist> getAllScientists() {
         return scientistRepository.findAll();
     }
@@ -68,7 +84,7 @@ public class ScientistService {
         return scientistRepository.findById(id);
     }
 
-    public Scientist saveScientist(ScientistDTO scientist) {
+    public Scientist saveScientist(ScientistDTO scientist) throws IOException {
     	Scientist sc=new Scientist();
     	Account account=new Account();
     	Degree de=degree.getById(Integer.parseInt(scientist.getDegree()));
@@ -84,7 +100,6 @@ public class ScientistService {
     	sc.setFullName(scientist.getFullName());
     	sc.setGender(scientist.getGender());
     	sc.setBirthYear(scientist.getBirthYear());
-    	sc.setImage(scientist.getImageUrl());
     	sc.setPhoneNumber(scientist.getPhone());
     	sc.setEmail(scientist.getEmail());
     	sc.setDegree(de);
@@ -101,9 +116,14 @@ public class ScientistService {
     	account.setUsername(base);
     	account.setPassword("1");
     	account.setRole(Role.Scientist);
+    	try {
+    		java.util.Map r=cloudinary.uploader().upload(scientist.getImageUrl().getBytes(), ObjectUtils.asMap("resource_type","auto"));
+    		String img=(String) r.get("secure_url");
+    		sc.setImage(img);
+    	}catch (IOException e){
+    		e.printStackTrace();
+    	}
     	accountRepository.save(account);
-    	
-    	
         return scientistRepository.save(sc);
     }
 

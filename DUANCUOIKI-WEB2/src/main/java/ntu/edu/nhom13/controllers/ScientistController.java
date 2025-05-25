@@ -23,10 +23,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +68,8 @@ public class ScientistController {
     @Autowired
     private ResearchFieldRepository researchFieldRepository;
     
+    public static String UPLOAD_DIRECTORY = "/images";
+
     @GetMapping("/scientists")
     public String listScientists(
             @RequestParam(required = false) String keyword,
@@ -175,9 +182,8 @@ public class ScientistController {
     }
 
     @PostMapping("/create/save")
-    public String createScientist( @ModelAttribute ScientistDTO scientist) {
+    public String createScientist( @ModelAttribute ScientistDTO scientist) throws IOException {
     	scientistService.saveScientist(scientist);
-    	
         return "/users/login";
     }
 
