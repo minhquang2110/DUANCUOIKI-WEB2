@@ -86,7 +86,7 @@ public class ScientistController {
         model.addAttribute("titles", titleRepository.findAll());
         model.addAttribute("researchfields", researchFieldRepository.findAll());
 
-        return "scientistsList"; 
+        return "scientistsList";
     }
 
     @GetMapping("/scientists/profile")
@@ -173,7 +173,7 @@ public class ScientistController {
         return "/users/login";
     }
 
-    @GetMapping("/delete/scientist/{id}")
+    @PostMapping("/delete/scientist/{id}")
     public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (!scientistService.existsById(id)) {
             redirectAttributes.addFlashAttribute("error", "Scientist không tồn tại!");
@@ -181,6 +181,7 @@ public class ScientistController {
             scientistService.deleteById(id);
             redirectAttributes.addFlashAttribute("success", "Xóa Scientist thành công!");
         }
-        return "redirect:/admin/scientistList";
+        return "redirect:/scientists/scientistList";
     }
+
 }

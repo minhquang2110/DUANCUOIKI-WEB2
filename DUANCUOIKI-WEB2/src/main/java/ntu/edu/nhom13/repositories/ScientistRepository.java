@@ -1,8 +1,10 @@
 package ntu.edu.nhom13.repositories;
 
+import jakarta.transaction.Transactional;
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.repositories.custom.ScientistRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -32,4 +34,10 @@ public interface ScientistRepository extends JpaRepository<Scientist, Integer>, 
 
     @Query("SELECT s FROM Scientist s WHERE s.account.id = :accountId")
     Scientist findScientistByAccountId(@Param("accountId") Integer accountId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Scientist s WHERE s.id = :id")
+    void deleteScientistById(@Param("id") Integer id);
+
 }
