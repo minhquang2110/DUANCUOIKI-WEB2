@@ -1,11 +1,14 @@
 package ntu.edu.nhom13.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "accounts")
 public class Account {
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")

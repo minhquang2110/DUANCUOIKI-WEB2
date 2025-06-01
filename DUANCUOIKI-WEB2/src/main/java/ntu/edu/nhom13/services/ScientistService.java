@@ -3,6 +3,7 @@ package ntu.edu.nhom13.services;
 import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
@@ -43,6 +44,11 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Queue;
 import java.util.Set;
+import java.text.Normalizer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 @Service
 public class ScientistService {
@@ -54,7 +60,6 @@ public class ScientistService {
     private RankRepository rankRepository;
     @Autowired
     private TitleRepository titleRepository;
-  
     @Autowired
     private OrganizationRepository organizationRepository;
     @Autowired
@@ -84,9 +89,29 @@ public class ScientistService {
         return scientistRepository.findById(id);
     }
 
-    public Scientist saveScientist(ScientistDTO scientist) throws IOException {
+    public String saveScientist(ScientistDTO scientist,Model model) throws IOException {
     	Scientist sc=new Scientist();
     	Account account=new Account();
+    	String normalized = Normalizer.normalize(scientist.getFullName(), Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        String tenKhongDau = pattern.matcher(normalized).replaceAll("")
+                .replaceAll("đ", "d")
+                .replaceAll("Đ", "D");
+
+        String tenXuLy = tenKhongDau.toLowerCase().replaceAll("\\s+", "");
+
+        LocalDateTime now = LocalDateTime.now();
+        String thoiGian = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
+
+        String ketQua = tenXuLy + thoiGian;
+    	
+//    	if(accountRepository.existsByUsername(ketQua)==false) {
+//    		account.setUsername(ketQua);
+//    	}else {
+//    		
+//    	}
+        
+        account.setUsername(ketQua);
     	Degree de=degree.getById(Integer.parseInt(scientist.getDegree()));
     	Rank ra=rankRepository.getById(Integer.parseInt(scientist.getRank()));
     	Title ti=titleRepository.getById(Integer.parseInt(scientist.getTitle()));
@@ -111,10 +136,9 @@ public class ScientistService {
     	sc.setMajor(scientist.getMajor());
     	sc.setSubMajor(scientist.getSubMajor());
     	sc.setTeachingSpecialty(scientist.getTeachingSpecialty());
-    	String base = scientist.getFullName().toLowerCase().replaceAll("\\s+", "");
-        int random = new Random().nextInt(900) + 100; 
-    	account.setUsername(base);
+    
     	account.setPassword("1");
+    	
     	account.setRole(Role.Scientist);
     	try {
     		java.util.Map r=cloudinary.uploader().upload(scientist.getImageUrl().getBytes(), ObjectUtils.asMap("resource_type","auto"));
@@ -124,7 +148,8 @@ public class ScientistService {
     		e.printStackTrace();
     	}
     	accountRepository.save(account);
-        return scientistRepository.save(sc);
+        scientistRepository.save(sc);
+        return "redirect:/scientist/scientistList";
     }
 
     public void deleteScientist(Integer id) {

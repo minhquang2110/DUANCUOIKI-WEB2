@@ -16,6 +16,8 @@ import ntu.edu.nhom13.services.ScientistService;
 import ntu.edu.nhom13.services.WorkHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,9 +70,8 @@ public class ScientistController {
     @Autowired
     private ResearchFieldRepository researchFieldRepository;
     
-    public static String UPLOAD_DIRECTORY = "/images";
 
-    @GetMapping("/scientists")
+    @GetMapping("/scientists/list")
     public String listScientists(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) Integer degreeId,
@@ -78,7 +79,6 @@ public class ScientistController {
             @RequestParam(required = false) Integer researchFieldId,
             Model model
     ) {
-        // Xử lý filter lĩnh vực cha -> con 
         Set<Integer> researchFieldIds = new HashSet<>();
         if (researchFieldId != null) {
             researchFieldIds.add(researchFieldId);
@@ -104,9 +104,9 @@ public class ScientistController {
     }
 
     @GetMapping("/scientists/profile")
-    public String profileScientist(Model model,HttpSession session) {
-    	Scientist account = (Scientist) session.getAttribute("user");
-    	model.addAttribute("scientist",account);
+    public String profileScientist(Model model,Authentication authentication) {
+    	User account =  (User) authentication.getPrincipal();
+    	model.addAttribute("scientist",account.getScientist());
     	return "details_scientist";
     }
 
@@ -166,7 +166,6 @@ public class ScientistController {
         return "articles_list";
     }
 
-    ////////////
 
 
     @GetMapping("/scientist/scientistList")
@@ -174,31 +173,4 @@ public class ScientistController {
         model.addAttribute("scientists", scientistService.findAll());
         return "scientist/scientistList";
     }
-
-    @GetMapping("/scientist/createScientist")
-    public String showCreateForm(Model model) {
-    	 model.addAttribute("scientist", new ScientistDTO());
-        return "scientist/createScientist";
-    }
-
-    @PostMapping("/create/save")
-    public String createScientist( @ModelAttribute ScientistDTO scientist) throws IOException {
-    	scientistService.saveScientist(scientist);
-        return "/users/login";
-    }
-
-
-    @GetMapping("/delete/scientist/{id}")
-    public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (!scientistService.existsById(id)) {
-            redirectAttributes.addFlashAttribute("error", "Scientist không tồn tại!");
-        } else {
-            scientistService.deleteById(id);
-            redirectAttributes.addFlashAttribute("success", "Xóa Scientist thành công!");
-        }
-        return "redirect:/scientist/scientistList";
-    }
-
-
-
 }

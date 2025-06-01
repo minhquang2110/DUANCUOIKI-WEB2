@@ -1,8 +1,9 @@
-package ntu.edu.nhom13.controllers;
+	package ntu.edu.nhom13.controllers;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,26 +34,28 @@ public class UserController{
 	public String lo() {
 		return "/users/login";
 	}
-	@GetMapping("/login")
-	public String login(@RequestParam("username") String username,@RequestParam("password") String password,Model model,HttpSession session) {
-		Account a=accountService.findByUsername(username);
-		if(a==null) {
-			return "users/login";
-		}
-		if(a.getPassword().equals(password)) {
-			if(a.getRole().toString().equals("Admin")) {
-				session.setAttribute("user", adminService.getAdminByAccountId(a.getAccountId()));
-				return "redirect:/admins/profile";
-			}else {
-				session.setAttribute("user", scientistService.getScientistByAccountId(a.getAccountId()));
-		        return "redirect:/scientists/profile";
-			}
-		}else {
-			return "users/login";
-		}
-	}
 	
-	@GetMapping("/logout")
+//	@PostMapping("/login")
+//	public String login(@RequestParam("username") String username,@RequestParam("password") String password,Model model,HttpSession session) {
+//		Account a=accountService.findByUsername(username);
+//		if(a==null) {
+//			return "users/login";
+//		}
+//		System.out.println(a.getUsername());
+//		if(a.getPassword().equals(password)) {
+//			if(a.getRole().toString().equals("Admin")) {
+//				session.setAttribute("user", adminService.getAdminByAccountId(a.getAccountId()));
+//				return "redirect:/admins/profile";
+//			}else {
+//				session.setAttribute("user", scientistService.getScientistByAccountId(a.getAccountId()));
+//		        return "redirect:/scientists/profile";
+//			}
+//		}else {
+//			return "users/login";
+//		}
+//	}
+//	
+	@GetMapping("user/logout")
 	public String logout(HttpSession session) {
 		if(session!=null) {
 			session.removeAttribute("user");
@@ -60,12 +63,12 @@ public class UserController{
 		return "users/login";
 	}
 
-	@GetMapping("/forgot-password")
+	@GetMapping("user/forgot-password")
 	public String showForgotPasswordForm() {
-		return "users/forgot-password"; // trang HTML form reset mật khẩu
+		return "users/forgot-password";
 	}
 
-	@GetMapping("/reset-password")
+	@GetMapping("user/reset-password")
 	public String resetPassword(
 			@RequestParam("username") String username,
 			@RequestParam("newPassword") String newPassword,
@@ -88,13 +91,13 @@ public class UserController{
 	private boolean isValidPassword(String password) {
 		return password != null && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
 	}
-	@GetMapping("/change-password")
+	@GetMapping("user/change-password")
 	public String showChangePasswordForm() {
 		return "users/change-password"; // Trả về trang HTML chứa form
 	}
 
 
-	@PostMapping("/change-password")
+	@PostMapping("user/change-password")
 	public String changePassword(
 			@RequestParam("username") String username,
 			@RequestParam("currentPassword") String currentPassword,
