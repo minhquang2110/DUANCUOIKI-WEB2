@@ -1,6 +1,7 @@
 package ntu.edu.nhom13.services;
 
-import org.hibernate.mapping.Map;
+import jakarta.transaction.Transactional;
+import ntu.edu.nhom13.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -21,15 +22,6 @@ import ntu.edu.nhom13.entity.Rank;
 import ntu.edu.nhom13.entity.ResearchField;
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.entity.Title;
-import ntu.edu.nhom13.repositories.AccountRepository;
-import ntu.edu.nhom13.repositories.BookRepository;
-import ntu.edu.nhom13.repositories.DegreeRepository;
-import ntu.edu.nhom13.repositories.LanguageLevelRepository;
-import ntu.edu.nhom13.repositories.OrganizationRepository;
-import ntu.edu.nhom13.repositories.RankRepository;
-import ntu.edu.nhom13.repositories.ResearchFieldRepository;
-import ntu.edu.nhom13.repositories.ScientistRepository;
-import ntu.edu.nhom13.repositories.TitleRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,8 +44,13 @@ import java.util.regex.Pattern;
 
 @Service
 public class ScientistService {
-    @Autowired
-    private ScientistRepository scientistRepository;
+    @Autowired private ScientistRepository scientistRepository;
+    @Autowired private BookAuthorRepository bookAuthorRepository;
+    @Autowired private ArticleAuthorRepository articleAuthorRepository;
+    @Autowired private ProjectParticipantRepository projectParticipantRepository;
+    @Autowired private WorkHistoryRepository workHistoryRepository;
+    @Autowired private EducationHistoryRepository educationHistoryRepository;
+
     @Autowired
     private DegreeRepository degree;
     @Autowired
@@ -181,9 +178,17 @@ public class ScientistService {
 //    public void save(ScientistDTO scientist) {
 //        scientistRepository.save(scientist);
 //    }
-
+    @Transactional
     public void deleteById(Integer id) {
-        scientistRepository.deleteById(id);
+        // Xóa các bản ghi liên quan trước
+        bookAuthorRepository.deleteByScientist_Id(id);
+        articleAuthorRepository.deleteByScientist_Id(id);
+        projectParticipantRepository.deleteByScientist_Id(id);
+        workHistoryRepository.deleteByScientist_Id(id);
+        educationHistoryRepository.deleteByScientist_Id(id);
+
+        // Sau đó mới xóa Scientist
+        scientistRepository.deleteScientistById(id);
     }
 
     public boolean existsById(Integer id) {
