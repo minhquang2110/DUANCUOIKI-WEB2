@@ -34,7 +34,7 @@ public class AdminController {
 	 	@GetMapping("/admin/createScientist")
 	    public String showCreateForm(Model model) {
 	    	 model.addAttribute("scientist", new ScientistDTO());
-	        return "scientist/createScientist";
+	        return "admin/createScientist";
 	    }
 
 	    @PostMapping("/admin/createScientist/save")
