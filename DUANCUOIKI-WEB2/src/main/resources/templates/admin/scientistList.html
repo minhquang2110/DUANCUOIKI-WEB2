@@ -36,7 +36,7 @@
     <p th:if="${success}" th:text="${success}" style="color:green"></p>
     <p th:if="${error}" th:text="${error}" style="color:red"></p>
 
-    <a th:href="@{/scientists/createScientist}">+ Thêm mới</a>
+    <a th:href="@{/admin/createScientist}">+ Thêm mới</a>
     <table border="1">
         <tr>
             <th>ID</th>
@@ -51,7 +51,7 @@
             <td th:text="${s.email}"></td>
             <td th:text="${s.gender}"></td>
             <td>
-                <form th:action="@{'/delete/scientist/' + ${s.id}}" method="post" onsubmit="return confirm('Bạn có chắc muốn xoá?');">
+                <form th:action="@{'/admin/delete/scientist/' + ${s.id}}" method="post" onsubmit="return confirm('Bạn có chắc muốn xoá?');">
                     <button type="submit" class="btn btn-danger">Xoá</button>
                 </form>
             </td>

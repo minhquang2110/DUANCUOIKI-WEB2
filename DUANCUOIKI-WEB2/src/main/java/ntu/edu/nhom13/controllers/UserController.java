@@ -48,20 +48,20 @@ public class UserController{
 //		}
 //	}
 //	
-	@GetMapping("user/logout")
+	@GetMapping("/user/logout")
 	public String logout(HttpSession session) {
 		if(session!=null) {
 			session.removeAttribute("user");
 		}
-		return "users/login";
+		return "/users/login";
 	}
 
-	@GetMapping("user/forgot-password")
+	@GetMapping("/user/forgot-password")
 	public String showForgotPasswordForm() {
 		return "users/forgot-password";
 	}
 
-	@GetMapping("user/reset-password")
+	@GetMapping("/user/reset-password")
 	public String resetPassword(
 			@RequestParam("username") String username,
 			@RequestParam("newPassword") String newPassword,
@@ -77,20 +77,20 @@ public class UserController{
 			model.addAttribute("error", "Không tìm thấy tài khoản với username đã nhập.");
 		}
 
-		return "users/forgot-password";
+		return "/users/forgot-password";
 	}
 
 
 	private boolean isValidPassword(String password) {
 		return password != null && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
 	}
-	@GetMapping("user/change-password")
+	@GetMapping("/user/change-password")
 	public String showChangePasswordForm() {
-		return "users/change-password"; // Trả về trang HTML chứa form
+		return "/users/change-password"; // Trả về trang HTML chứa form
 	}
 
 
-	@PostMapping("user/change-password")
+	@PostMapping("/user/change-password")
 	public String changePassword(
 			@RequestParam("username") String username,
 			@RequestParam("currentPassword") String currentPassword,
@@ -101,24 +101,24 @@ public class UserController{
 
 		if (account == null) {
 			model.addAttribute("error", "❌ Tên đăng nhập không tồn tại.");
-			return "users/change-password";
+			return "/users/change-password";
 		}
 
 		if (!account.getPassword().equals(currentPassword)) {
 			model.addAttribute("error", "❌ Mật khẩu hiện tại không chính xác.");
-			return "users/change-password";
+			return "/users/change-password";
 		}
 
 		if (!isValidPassword(newPassword)) {
 			model.addAttribute("error", "❌ Mật khẩu mới phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường và số.");
-			return "users/change-password";
+			return "/users/change-password";
 		}
 
 		account.setPassword(newPassword);
 		accountService.saveAccount(account);
 
 		model.addAttribute("message", "✅ Đổi mật khẩu thành công.");
-		return "users/change-password";
+		return "/users/change-password";
 	}
 
 

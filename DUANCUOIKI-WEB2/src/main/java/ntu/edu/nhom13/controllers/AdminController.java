@@ -44,7 +44,7 @@ public class AdminController {
 	    }
 
 
-	    @GetMapping("/admin/delete/scientist/{id}")
+	    @PostMapping("/admin/delete/scientist/{id}")
 	    public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 	        if (!scientistService.existsById(id)) {
 	            redirectAttributes.addFlashAttribute("error", "Scientist không tồn tại!");
