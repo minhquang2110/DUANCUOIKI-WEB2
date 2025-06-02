@@ -30,33 +30,42 @@
 <header th:replace="~{layout :: header}"></header>
 <nav th:replace="~{layout :: menu}"></nav>
 
-<div class="container">
-    <h2>Danh sách Scientist</h2>
+<div class="container my-4">
+    <h2>Danh sách Nhà khoa học</h2>
 
-    <p th:if="${success}" th:text="${success}" style="color:green"></p>
-    <p th:if="${error}" th:text="${error}" style="color:red"></p>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <a th:href="@{/admin/createScientist}">+ Thêm mới</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Họ tên</th>
-            <th>Email</th>
-            <th>Giới tính</th>
-            <th>Thao tác</th>
-        </tr>
-        <tr th:each="s : ${scientists}">
-            <td th:text="${s.id}"></td>
-            <td th:text="${s.fullName}"></td>
-            <td th:text="${s.email}"></td>
-            <td th:text="${s.gender}"></td>
-            <td>
-                <form th:action="@{'/admin/delete/scientist/' + ${s.id}}" method="post" onsubmit="return confirm('Bạn có chắc muốn xoá?');">
-                    <button type="submit" class="btn btn-danger">Xoá</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+    <a th:href="@{/admin/createScientist}" class="btn btn-primary mb-3">+ Thêm mới</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Giới tính</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${scientists}">
+                    <td th:text="${s.id}"></td>
+                    <td th:text="${s.fullName}"></td>
+                    <td th:text="${s.email}"></td>
+                    <td th:text="${s.gender}"></td>
+                    <td>
+                        <form th:action="@{'/admin/delete/scientist/' + ${s.id}}" method="post" 
+                              onsubmit="return confirm('Bạn có chắc muốn xoá?');" style="display:inline-block;">
+                            <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                        </form>
+                        <a th:href="@{'/admin/edit/scientist/' + ${s.id}}" class="btn btn-warning btn-sm ms-2">Sửa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <footer th:replace="~{layout :: footer}"></footer>

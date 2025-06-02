@@ -32,6 +32,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Queue;
@@ -52,7 +53,7 @@ public class ScientistService {
     @Autowired private EducationHistoryRepository educationHistoryRepository;
 
     @Autowired
-    private DegreeRepository degree;
+    private DegreeRepository degreeRepository;
     @Autowired
     private RankRepository rankRepository;
     @Autowired
@@ -86,68 +87,65 @@ public class ScientistService {
         return scientistRepository.findById(id);
     }
 
-    public String saveScientist(ScientistDTO scientist,Model model) throws IOException {
-    	Scientist sc=new Scientist();
-    	Account account=new Account();
-    	String normalized = Normalizer.normalize(scientist.getFullName(), Normalizer.Form.NFD);
+    public void saveScientist(ScientistDTO scientist) throws IOException {
+        Scientist sc = new Scientist();
+        Account account = new Account();
+
+        // Tạo username tự động không dấu + thời gian
+        String normalized = Normalizer.normalize(scientist.getFullName(), Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         String tenKhongDau = pattern.matcher(normalized).replaceAll("")
                 .replaceAll("đ", "d")
                 .replaceAll("Đ", "D");
-
         String tenXuLy = tenKhongDau.toLowerCase().replaceAll("\\s+", "");
-
-        LocalDateTime now = LocalDateTime.now();
-        String thoiGian = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-
+        String thoiGian = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
         String ketQua = tenXuLy + thoiGian;
-    	
-//    	if(accountRepository.existsByUsername(ketQua)==false) {
-//    		account.setUsername(ketQua);
-//    	}else {
-//    		
-//    	}
-        
+
         account.setUsername(ketQua);
-    	Degree de=degree.getById(Integer.parseInt(scientist.getDegree()));
-    	Rank ra=rankRepository.getById(Integer.parseInt(scientist.getRank()));
-    	Title ti=titleRepository.getById(Integer.parseInt(scientist.getTitle()));
-    	ResearchField re=researchFieldRepository.getById(Integer.parseInt(scientist.getResearchField()));
-    	Organization or=organizationRepository.getById(Integer.parseInt(scientist.getOrganization()));
-    	LanguageLevel la=languageLevelRepository.getById(Integer.parseInt(scientist.getLanguageLevel()));
-    	int num=(int) scientistRepository.count();
-    	sc.setId(num+1);
-    	sc.setAccount(account);
-    	sc.setAddress(scientist.getAddress());
-    	sc.setFullName(scientist.getFullName());
-    	sc.setGender(scientist.getGender());
-    	sc.setBirthYear(scientist.getBirthYear());
-    	sc.setPhoneNumber(scientist.getPhone());
-    	sc.setEmail(scientist.getEmail());
-    	sc.setDegree(de);
-    	sc.setRank(ra);
-    	sc.setTitle(ti);
-    	sc.setResearchField(re);
-    	sc.setOrganization(or);
-    	sc.setLanguageLevel(la);
-    	sc.setMajor(scientist.getMajor());
-    	sc.setSubMajor(scientist.getSubMajor());
-    	sc.setTeachingSpecialty(scientist.getTeachingSpecialty());
-    
-    	account.setPassword("1");
-    	
-    	account.setRole(Role.Scientist);
-    	try {
-    		java.util.Map r=cloudinary.uploader().upload(scientist.getImageUrl().getBytes(), ObjectUtils.asMap("resource_type","auto"));
-    		String img=(String) r.get("secure_url");
-    		sc.setImage(img);
-    	}catch (IOException e){
-    		e.printStackTrace();
-    	}
-    	accountRepository.save(account);
+        account.setPassword("1");  // Bạn nên mã hóa password ở đây
+        account.setRole(Role.Scientist);
+
+        // Gán account cho scientist
+        sc.setAccount(account);
+
+        // Set các trường khác
+        sc.setFullName(scientist.getFullName());
+        sc.setEmail(scientist.getEmail());
+        sc.setGender(scientist.getGender());
+        sc.setBirthYear(scientist.getBirthYear());
+        sc.setAddress(scientist.getAddress());
+        sc.setPhoneNumber(scientist.getPhone());
+        sc.setMajor(scientist.getMajor());
+        sc.setSubMajor(scientist.getSubMajor());
+        sc.setTeachingSpecialty(scientist.getTeachingSpecialty());
+
+        // Lấy các đối tượng liên quan từ repository theo ID
+        Degree de = degreeRepository.getById(Integer.parseInt(scientist.getDegree()));
+        Rank ra = rankRepository.getById(Integer.parseInt(scientist.getRank()));
+        Title ti = titleRepository.getById(Integer.parseInt(scientist.getTitle()));
+        ResearchField re = researchFieldRepository.getById(Integer.parseInt(scientist.getResearchField()));
+        Organization or = organizationRepository.getById(Integer.parseInt(scientist.getOrganization()));
+        LanguageLevel la = languageLevelRepository.getById(Integer.parseInt(scientist.getLanguageLevel()));
+
+        sc.setDegree(de);
+        sc.setRank(ra);
+        sc.setTitle(ti);
+        sc.setResearchField(re);
+        sc.setOrganization(or);
+        sc.setLanguageLevel(la);
+
+        // Xử lý upload ảnh nếu có
+        if (scientist.getImageUrl() != null && !scientist.getImageUrl().isEmpty()) {
+            Map uploadResult = cloudinary.uploader().upload(scientist.getImageUrl().getBytes(),
+                    ObjectUtils.asMap("resource_type", "auto"));
+            String imageUrl = (String) uploadResult.get("secure_url");
+            sc.setImage(imageUrl);
+        }
+
+        // Lưu scientist (cascade tự động lưu account nếu bạn set cascade)
         scientistRepository.save(sc);
-        return "redirect:/scientist/scientistList";
     }
+
 
     public void deleteScientist(Integer id) {
         scientistRepository.deleteById(id);

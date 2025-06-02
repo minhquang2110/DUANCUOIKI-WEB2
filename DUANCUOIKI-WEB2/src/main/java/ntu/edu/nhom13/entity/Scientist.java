@@ -9,11 +9,12 @@ import jakarta.persistence.*;
 public class Scientist {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  
     @Column(name = "id")
     private Integer id;  
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id") 
+    @OneToOne(cascade = CascadeType.ALL)  // rất quan trọng để tự động lưu account cùng scientist
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @Column(name = "full_name")
