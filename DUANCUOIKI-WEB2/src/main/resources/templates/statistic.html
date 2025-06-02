@@ -105,15 +105,15 @@
 
 <!-- Chart.js scripts -->
 <script th:inline="javascript">
-    const genderData = {};
+    const genderData = /*[[${genderDistribution}]]*/ {};
     const genderLabels = Object.keys(genderData);
     const genderCounts = Object.values(genderData);
 
-    const rankData = {};
+    const rankData = /*[[${rankDistribution}]]*/ {};
     const rankLabels = Object.keys(rankData);
     const rankCounts = Object.values(rankData);
 
-    // Gender Pie Chart
+    // Biểu đồ giới tính
     new Chart(document.getElementById('genderChart'), {
         type: 'pie',
         data: {
@@ -129,7 +129,7 @@
         }
     });
 
- // Rank Bar Chart
+    // Biểu đồ ngạch
     new Chart(document.getElementById('rankChart'), {
         type: 'bar',
         data: {
@@ -146,8 +146,8 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1,    
-                        precision: 0    
+                        stepSize: 1,
+                        precision: 0
                     }
                 }
             },
@@ -163,6 +163,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>

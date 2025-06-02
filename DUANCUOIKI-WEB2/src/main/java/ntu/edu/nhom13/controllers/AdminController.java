@@ -21,7 +21,7 @@ public class AdminController {
 	@Autowired
     private ScientistService scientistService;
 	
-	 @GetMapping("/admin/profile")
+		@GetMapping("/admin/profile")
 	    public String profileAdmin(Model model,HttpSession session) {
 	    	Admin account = (Admin) session.getAttribute("user");
 	    	if(account==null) {

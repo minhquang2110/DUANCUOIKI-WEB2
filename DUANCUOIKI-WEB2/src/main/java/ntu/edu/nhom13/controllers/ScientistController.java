@@ -57,7 +57,7 @@ public class ScientistController {
     private ResearchFieldRepository researchFieldRepository;
     
 
-    @GetMapping("/scientists/list")
+    @GetMapping({"/scientists", "/scientists/list"})
     public String listScientists(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) Integer degreeId,
@@ -152,8 +152,6 @@ public class ScientistController {
         model.addAttribute("articles", articles);
         return "scientist/articles_list";
     }
-
-
 
     @GetMapping("/scientists/scientistList")
     public String showScientists(Model model) {
