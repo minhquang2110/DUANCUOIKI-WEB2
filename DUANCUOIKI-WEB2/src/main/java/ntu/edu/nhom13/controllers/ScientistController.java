@@ -93,7 +93,7 @@ public class ScientistController {
     public String profileScientist(Model model,Authentication authentication) {
     	User account =  (User) authentication.getPrincipal();
     	model.addAttribute("scientist",account.getScientist());
-    	return "details_scientist";
+    	return "scientist/details_scientist";
     
     }
 
