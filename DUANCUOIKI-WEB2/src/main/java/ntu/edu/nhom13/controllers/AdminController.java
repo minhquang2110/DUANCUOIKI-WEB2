@@ -2,6 +2,7 @@ package ntu.edu.nhom13.controllers;
 
 import java.io.IOException;
 
+import ntu.edu.nhom13.entity.Scientist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,4 +97,20 @@ public class AdminController {
         }
         return "redirect:/admin/scientistList"; 
     }
+
+    //Edit thong tin nha khoa Hoc
+    @GetMapping("/admin/edit/scientist/{id}")
+    public String showEditForm(@PathVariable("id") Integer id, Model model) {
+        Scientist scientist = scientistService.findById(id);
+        model.addAttribute("scientist", scientist);
+        return "admin/editScientist";
+    }
+
+    @PostMapping("/admin/edit/save")
+    public String editScientist(@Valid ScientistDTO scientistDTO, BindingResult bindingResult, Model model) throws IOException {
+        scientistService.saveScientist(scientistDTO);
+        return "redirect:/admin/scientistList";
+    }
+
+
 }
