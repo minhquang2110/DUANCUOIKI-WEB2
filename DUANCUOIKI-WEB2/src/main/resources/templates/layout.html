@@ -6,53 +6,86 @@
     <title th:replace="this :: pageTitle">Trang chính</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+    .navbar-nav .nav-link:hover {
+        background-color: #3a3b70;
+        border-radius: 10px;
+    }
+
+    .nav-link {
+        padding: 8px 16px !important;
+    }
+</style>
     
 </head>
 
 <body>
-    <div th:fragment="header">
-        <header class="d-flex justify-content-end align-items-center p-2 border-bottom">      
-			<img src="https://ntu.edu.vn/Portals/6/ntu.edu.vn.png?ver=ckjn5juE3seliaBQFD_5vA%3d%3d">
-        </header>
-    </div>
+	<div th:fragment="header">
+	    <header class="bg-white border-bottom py-3">
+	        <div class="container-fluid d-flex justify-content-between align-items-center">
+	            <!-- Logo + Tên trường -->
+	            <div class="d-flex align-items-center gap-3">
+	                <img src="https://ntu.edu.vn/Portals/6/ntu.edu.vn.png?ver=ckjn5juE3seliaBQFD_5vA%3d%3d" alt="Logo" style="height: 60px;">
+	                <div>
+	                    <h5 class="m-0 fw-bold text-danger text-uppercase">Đại Học Nha Trang</h5>
+	                    <small class="text-muted text-uppercase">Nha Trang University</small>
+	                </div>
+	            </div>
+	
+	            <!-- Tên hệ thống -->
+	            <div class="text-center flex-grow-1">
+	                <h4 class="m-0 fw-bold text-uppercase text-primary" style="letter-spacing: 1px;">
+	                    CSDL Khoa Công Nghệ Thông Tin
+	                </h4>
+	            </div>
+	
+	            <!-- Đăng nhập/Đăng xuất -->
+	            <div>
+	                <a href="/logout" th:text="${#ctx.session.isEmpty()? 'Đăng nhập' : 'Đăng xuất'}"
+	                   class="btn btn-danger rounded-pill px-4"></a>
+	            </div>
+	        </div>
+	    </header>
+	</div>
+
     
     <div th:fragment="menu">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{/}">Trang Chủ</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+	    <nav class="navbar navbar-expand-lg" style="background-color: #23244D;">
+	        <div class="container-fluid">
+	            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+	                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+	                <span class="navbar-toggler-icon"></span>
+	            </button>
+	
+	            <div class="collapse navbar-collapse" id="navbarContent">
+	                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	                    <li class="nav-item">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/}">Trang chủ</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/scientists/list}">Nhà khoa học</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/scientists/scientistList}">Danh sách nhà khoa học</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/statistics}">Thống kê</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/profile}">Thông tin cá nhân</a>
+	                    </li>
+	                    <li class="nav-item" sec:authorize="hasRole('Admin')">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/admin/profile}">Quản trị viên</a>
+	                    </li>
+	                    <li class="nav-item" sec:authorize="hasRole('Scientist')">
+	                        <a class="nav-link text-white fw-semibold" th:href="@{/scientists/profile}">Nhà khoa học</a>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+	    </nav>
+	</div>
 
-                <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/scientists/list}">Nhà Khoa Học</a>
-                        </li>
-                        <li class="nav-item" >
-                            <a class="nav-link" th:href="@{/scientists/scientistList}">Danh Sách Nhà Khoa Học (CRUD)</a>
-                        </li>
-                        <li class="nav-item" >
-                            <a class="nav-link" th:href="@{/statistics}">Thông Kê</a>
-                        </li>
-                        <li class="nav-item" >
-                            <a class="nav-link" th:href="@{/profile}">Thông Tin Cá Nhân</a>
-                        </li>
-                      	<li class="nav-item" sec:authorize="hasRole('Admin')">
-                        <a class="nav-link" th:href="@{/admin/profile}">Thông Tin Cá Nhân</a>
-                    	</li>
-                    	<li class="nav-item" sec:authorize="hasRole('Scientist')">
-                        	<a class="nav-link" th:href="@{/scientists/profile}">Thông Tin Cá Nhân</a>
-                    	</li>
-                    </ul>
-                </div>
-                <span class="navbar-text">
-			      <a href="/logout" th:text="${#ctx.session.isEmpty()? 'Login' : 'Logout'}"></a>
-			    </span>
-            </div>
-        </nav>
-    </div>
 
     <div th:fragment="footer">
         <footer class="bg-light text-dark mt-5 p-4">

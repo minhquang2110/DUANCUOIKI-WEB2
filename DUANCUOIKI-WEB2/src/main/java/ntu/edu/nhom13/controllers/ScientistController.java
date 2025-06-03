@@ -85,6 +85,7 @@ public class ScientistController {
         model.addAttribute("degrees", degreeRepository.findAll());
         model.addAttribute("titles", titleRepository.findAll());
         model.addAttribute("researchfields", researchFieldRepository.findAll());
+        model.addAttribute("scientistCount", scientists.size());
 
         return "scientistsList";
     }

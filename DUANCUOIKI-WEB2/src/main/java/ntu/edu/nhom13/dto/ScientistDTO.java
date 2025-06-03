@@ -3,24 +3,47 @@ package ntu.edu.nhom13.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ScientistDTO {
+    private Integer id; 
+    
     private String fullName;
+    
     private String email;
+    
     private String gender;
+    
     private Integer birthYear;
+    
     private String address;
+    
     private MultipartFile imageUrl;
+    
     private String phone;
+    
     private String major;
+    
     private String subMajor;
+    
     private String teachingSpecialty;
-
+    
     private String degree;
+    
     private String rank;
+    
     private String title;
+    
     private String researchField;
+    
     private String organization;
+    
     private String languageLevel;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getFullName() {
         return fullName;
