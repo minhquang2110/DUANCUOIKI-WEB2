@@ -3,6 +3,7 @@ package ntu.edu.nhom13.controllers;
 import java.io.IOException;
 
 import ntu.edu.nhom13.entity.Scientist;
+import ntu.edu.nhom13.mapper.ScientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -102,7 +103,8 @@ public class AdminController {
     @GetMapping("/admin/edit/scientist/{id}")
     public String showEditForm(@PathVariable("id") Integer id, Model model) {
         Scientist scientist = scientistService.findById(id);
-        model.addAttribute("scientist", scientist);
+        ScientistDTO dto = ScientMapper.fromEntity(scientist);
+        model.addAttribute("scientist", dto);
         return "admin/editScientist";
     }
 
