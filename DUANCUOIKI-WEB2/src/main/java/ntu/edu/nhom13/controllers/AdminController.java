@@ -3,8 +3,10 @@ package ntu.edu.nhom13.controllers;
 import java.io.IOException;
 
 import ntu.edu.nhom13.entity.Scientist;
+import ntu.edu.nhom13.entity.User;
 import ntu.edu.nhom13.mapper.ScientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,12 +52,9 @@ public class AdminController {
     private LanguageLevelService languageLevelService;
 	
 	@GetMapping("/admin/profile")
-    public String profileAdmin(Model model,HttpSession session) {
-    	Admin account = (Admin) session.getAttribute("user");
-    	if(account==null) {
-    		return "redirect:/login";
-    	}
-    	model.addAttribute("admin",account);
+    public String profileAdmin(Model model,Authentication authentication) {
+    	User account =  (User) authentication.getPrincipal();
+    	model.addAttribute("admin",account.getAdmin());
     	return "/admin/details_admin";
     }
 	

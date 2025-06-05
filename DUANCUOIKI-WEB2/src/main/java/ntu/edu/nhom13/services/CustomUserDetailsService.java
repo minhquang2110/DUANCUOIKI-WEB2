@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ntu.edu.nhom13.entity.Account;
+import ntu.edu.nhom13.entity.Admin;
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.entity.User;
 import ntu.edu.nhom13.repositories.AccountRepository;
@@ -20,6 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     
     @Autowired
 	private ScientistService scientistService;
+    
+    @Autowired
+   	private AdminService adminService;
 
     @Autowired
 	private PasswordEncoder passwordEncoder;
@@ -28,13 +32,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account user = accountRepository.findByUsername(username);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(user.getUsername());
 //        return org.springframework.security.core.userdetails.User
 //            .withUsername(user.getUsername())
 //            .password(passwordEncoder.encode(user.getPassword())) 
 //            .roles(user.getRole().toString()) 
 //            .build();
-        Scientist scientist= scientistService.getScientistByAccountId(user.getAccountId());
-        return new 	User(user,scientist);
+        
+        if(user.getRole().toString()=="Admin") {
+        	Admin scientist= adminService.getAdminByAccountId(user.getAccountId());
+        	return new 	User(user,scientist);
+        }else {
+        	Scientist scientist= scientistService.getScientistByAccountId(user.getAccountId());
+        	return new 	User(user,scientist);
+        }
     }
 }

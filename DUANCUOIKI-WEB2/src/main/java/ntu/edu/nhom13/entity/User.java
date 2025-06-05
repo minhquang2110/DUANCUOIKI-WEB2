@@ -15,10 +15,18 @@ public class User implements UserDetails{
 		
 	 	private final Account account;
 	 	private final Scientist scientist;
+	 	private final Admin admin;
 
 	 	public User(Account account, Scientist scientist) {
 	        this.account = account;
 	        this.scientist= scientist;
+			this.admin = null;
+	    }
+	 	
+	 	public User(Account account, Admin admin) {
+	        this.account = account;
+			this.scientist = null;
+	        this.admin= admin;
 	    }
 
 	    public Account getAccount() {
@@ -26,6 +34,9 @@ public class User implements UserDetails{
 	    }
 	    public Scientist getScientist() {
 	        return scientist;
+	    }
+	    public Admin getAdmin() {
+	        return admin;
 	    }
 
 	    @Override

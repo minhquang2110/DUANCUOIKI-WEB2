@@ -66,20 +66,24 @@
 	                        <a class="nav-link text-white fw-semibold" th:href="@{/scientists/list}">Nhà khoa học</a>
 	                    </li>
 	                    <li class="nav-item">
-	                        <a class="nav-link text-white fw-semibold" th:href="@{/scientists/scientistList}">Danh sách nhà khoa học</a>
-	                    </li>
+			            <li class="nav-item"
+						    sec:authorize="isAuthenticated() and hasRole('Admin')">
+						    <a class="nav-link text-white fw-semibold"
+						       th:href="@{/scientists/scientistList}">
+						        Danh sách nhà khoa học
+						    </a>
+						</li>
+
 	                    <li class="nav-item">
 	                        <a class="nav-link text-white fw-semibold" th:href="@{/statistics}">Thống kê</a>
 	                    </li>
-	                    <li class="nav-item">
-	                        <a class="nav-link text-white fw-semibold" th:href="@{/profile}">Thông tin cá nhân</a>
-	                    </li>
-	                    <li class="nav-item" sec:authorize="hasRole('Admin')">
-	                        <a class="nav-link text-white fw-semibold" th:href="@{/admin/profile}">Quản trị viên</a>
-	                    </li>
-	                    <li class="nav-item" sec:authorize="hasRole('Scientist')">
-	                        <a class="nav-link text-white fw-semibold" th:href="@{/scientists/profile}">Nhà khoa học</a>
-	                    </li>
+	                   <li class="nav-item" sec:authorize="hasRole('Admin')">
+						    <a class="nav-link text-white fw-semibold" th:href="@{/admin/profile}">Thông tin cá nhân</a>
+						</li>
+						
+						<li class="nav-item" sec:authorize="hasRole('Scientist')">
+						    <a class="nav-link text-white fw-semibold" th:href="@{/scientists/profile}">Thông tin cá nhân</a>
+						</li>
 	                </ul>
 	            </div>
 	        </div>

@@ -72,7 +72,7 @@ public class SecurityConfig {
         return http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login","/scientists/list").permitAll()
+                .requestMatchers("/","/scientists/list","/statistics").permitAll()
                 .requestMatchers("/admin/**").hasRole("Admin")
                 .requestMatchers("/scientist/**").hasRole("Scientist")
                 .requestMatchers(ALL_PEOPLE).hasAnyRole("Scientist", "Admin")
@@ -81,7 +81,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/loginTemplate") 
                 .loginProcessingUrl("/login") 
-                .defaultSuccessUrl("/scientists/list", true)
+                .defaultSuccessUrl("/", true)
                 .permitAll()
             )
             .logout(logout -> logout.permitAll())
