@@ -1,6 +1,7 @@
 package ntu.edu.nhom13.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.entity.User;
@@ -10,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
@@ -80,13 +78,24 @@ public class AdminController {
         return "redirect:/admin/scientistList";
     }
 
-    // Hiển thị danh sách nhà khoa học
     @GetMapping("/admin/scientistList")
-    public String listScientists(Model model) {
-        model.addAttribute("scientists", scientistService.getAllScientists());
-        return "admin/scientistList";  
-    }
+    public String listScientists(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<Scientist> scientists;
 
+        // Nếu có từ khóa tìm kiếm
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            // Gọi service để tìm kiếm
+            scientists = scientistService.searchScientists(keyword);
+            // Trả lại keyword cho view để hiển thị lại trên ô tìm kiếm
+            model.addAttribute("keyword", keyword);
+        } else {
+            // Nếu không có từ khóa, lấy tất cả
+            scientists = scientistService.getAllScientists();
+        }
+
+        model.addAttribute("scientists", scientists);
+        return "admin/scientistList";
+    }
     @PostMapping("/admin/delete/scientist/{id}")
     public String deleteScientist(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (!scientistService.existsById(id)) {

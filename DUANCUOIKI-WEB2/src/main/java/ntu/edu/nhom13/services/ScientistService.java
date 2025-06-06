@@ -227,4 +227,10 @@ public class ScientistService {
         return ids;
     }
 
+    // Phương thức mới để tìm kiếm
+    public List<Scientist> searchScientists(String keyword) {
+        return scientistRepository.search(keyword);
+    }
+
+    // ... các phương thức khác của bạn (save, delete, etc.)
 }

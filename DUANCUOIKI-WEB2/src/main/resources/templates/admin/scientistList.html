@@ -38,31 +38,46 @@
 
     <a th:href="@{/admin/createScientist}" class="btn btn-primary mb-3">+ Thêm mới</a>
 
+    <!-- =================== FORM TÌM KIẾM =================== -->
+    <form th:action="@{/admin/scientistList}" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control"
+                   th:value="${keyword}" placeholder="Nhập ID, tên, email, giới tính..."/>
+            <button type="submit" class="btn btn-info">Tìm kiếm</button>
+        </div>
+    </form>
+    <!-- ======================================================== -->
+
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
             <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Giới tính</th>
-                    <th>Thao tác</th>
-                </tr>
+            <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Giới tính</th>
+                <th>Thao tác</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="s : ${scientists}">
-                    <td th:text="${s.id}"></td>
-                    <td th:text="${s.fullName}"></td>
-                    <td th:text="${s.email}"></td>
-                    <td th:text="${s.gender}"></td>
-                    <td>
-                        <form th:action="@{'/admin/delete/scientist/' + ${s.id}}" method="post" 
-                              onsubmit="return confirm('Bạn có chắc muốn xoá?');" style="display:inline-block;">
-                            <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
-                        </form>
-                        <a th:href="@{'/admin/edit/scientist/' + ${s.id}}" class="btn btn-warning btn-sm ms-2">Sửa</a>
-                    </td>
-                </tr>
+            <!-- Hiển thị thông báo nếu không có kết quả -->
+            <tr th:if="${scientists.isEmpty()}">
+                <td colspan="5" class="text-center">Không tìm thấy nhà khoa học nào.</td>
+            </tr>
+            <!-- Lặp qua danh sách -->
+            <tr th:each="s : ${scientists}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.fullName}"></td>
+                <td th:text="${s.email}"></td>
+                <td th:text="${s.gender}"></td>
+                <td>
+                    <form th:action="@{'/admin/delete/scientist/' + ${s.id}}" method="post"
+                          onsubmit="return confirm('Bạn có chắc muốn xoá?');" style="display:inline-block;">
+                        <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                    </form>
+                    <a th:href="@{'/admin/edit/scientist/' + ${s.id}}" class="btn btn-warning btn-sm ms-2">Sửa</a>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
