@@ -43,22 +43,5 @@ public class AccountService{
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        System.out.println("loadUserByUsername được gọi với username = " + username);
-//        Account account = accountRepository.findByUsername(username);
-//        if (account == null) {
-//            System.out.println("Không tìm thấy user");
-//            throw new UsernameNotFoundException("User không tồn tại");
-//        }
-//        System.out.println("Tìm thấy user: " + account.getUsername());
-//        return User.builder()
-//                .username(account.getUsername())
-//                .password(passwordEncoder.encode(account.getPassword())) // mật khẩu đã mã hóa (BCrypt)
-//                .roles(account.getRole().toString())
-//                .build();
-//    }
-
 }
 

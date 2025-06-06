@@ -13,7 +13,7 @@
 <nav th:replace="~{layout :: menu}"></nav>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Tạo nhà khoa học</h2>
+    <h2 class="mb-4">Sửa nhà khoa học</h2>
     <form th:action="@{/admin/edit/save}" th:object="${scientist}" method="post" enctype="multipart/form-data" class="row g-3">
 
         <div class="col-md-6">
@@ -153,7 +153,7 @@
 		</div>
 
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Tạo</button>
+            <button type="submit" class="btn btn-primary">Sửa thông tin</button>
         </div>
     </form>
 </div>

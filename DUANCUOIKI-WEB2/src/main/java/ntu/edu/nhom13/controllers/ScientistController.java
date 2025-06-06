@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
@@ -91,15 +92,39 @@ public class ScientistController {
     }
 
     @GetMapping("/scientists/profile")
-    public String profileScientist(Model model,Authentication authentication) {
-    	User account =  (User) authentication.getPrincipal();
-    	model.addAttribute("scientist",account.getScientist());
-    	return "scientist/details_scientist";
+    public String profileScientist(Model model, Authentication authentication, HttpServletRequest request) {
+        User account = (User) authentication.getPrincipal();
+        model.addAttribute("scientist", account.getScientist());
+        model.addAttribute("requestURI", request.getRequestURI());
+        return "scientist/details_scientist";
+    }
     
+    @GetMapping("/scientists/edit")
+    public String editScientistForm(Model model, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        Scientist scientist = account.getScientist();
+        model.addAttribute("scientist", scientist);
+        return "scientist/edit_scientist";
     }
 
+    @PostMapping("/scientists/edit")
+    public String updateScientist(@ModelAttribute Scientist updatedScientist, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        Scientist existing = account.getScientist();
+
+        // Chỉ cập nhật các trường cơ bản
+        existing.setFullName(updatedScientist.getFullName());
+        existing.setGender(updatedScientist.getGender());
+        existing.setBirthYear(updatedScientist.getBirthYear());
+        existing.setAddress(updatedScientist.getAddress());
+        existing.setPhoneNumber(updatedScientist.getPhoneNumber());
+        existing.setEmail(updatedScientist.getEmail());
+
+        scientistService.save(existing);
+        return "redirect:/scientists/profile?success";
+    }
     @GetMapping("scientists/details/{id}")
-    public String showScientistDetails(@PathVariable Integer id, Model model) {
+    public String showScientistDetails(@PathVariable Integer id, Model model, HttpServletRequest request) {
         Optional<Scientist> scientistOpt = scientistService.getScientistById(id);
         if (scientistOpt.isEmpty()) {
             return "redirect:/scientists?error=notfound";
@@ -121,7 +146,7 @@ public class ScientistController {
         model.addAttribute("projectCount", projectCount);
         model.addAttribute("bookCount", bookCount);
         model.addAttribute("articleCount", articleCount);
-
+        model.addAttribute("requestURI", request.getRequestURI());
         return "scientist/details_scientist"; 
     }
 

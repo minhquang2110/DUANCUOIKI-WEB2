@@ -41,150 +41,156 @@
     <div class="container-fluid">
 	  <div class="row mb-4">
   	       <div class="row mb-5">
-		  <div class="col-md-3 text-center">
-		    <img th:src="${scientist.image != null ? scientist.image : '/images/default-avatar.png'}" 
-		         alt="Ảnh đại diện" class="img-fluid rounded-circle mb-3" style="width: 100%; max-width: 200px;" />
-		    <h4 th:text="${scientist.fullName}">Tên nhà khoa học</h4>
-		    <p class="text-danger" th:text="${scientist.title.name + ' - ' + scientist.degree.name}"></p>
-		  </div>
-		  <div class="col-md-9">
-			<div class="row text-center mb-5">
-			    <!-- Dự án -->
-			    <div class="col-md-4">
-			        <a th:href="@{'/scientists/' + ${scientist.id} + '/projects'}" class="text-decoration-none">
-			            <div class="border rounded p-4 h-100 shadow-sm hover-shadow bg-light">
-			                <h1 class="text-primary mb-2" th:text="${projectCount}">0</h1>
-			                <p class="fw-bold text-primary">ĐỀ TÀI KHOA HỌC</p>
-			            </div>
-			        </a>
-			    </div>
+			<div class="col-md-3 text-center">
+			    <img th:src="${scientist.image != null ? scientist.image : '/images/default-avatar.png'}" 
+			         alt="Ảnh đại diện" class="img-fluid rounded-circle mb-3" style="width: 100%; max-width: 200px;" />
+			    <h4 th:text="${scientist.fullName}">Tên nhà khoa học</h4>
+			    <p class="text-danger" th:text="${scientist.title.name + ' - ' + scientist.degree.name}"></p>
 			
-			    <!-- Sách -->
-			    <div class="col-md-4">
-			        <a th:href="@{'/scientists/' + ${scientist.id} + '/books'}" class="text-decoration-none">
-			            <div class="border rounded p-4 h-100 shadow-sm hover-shadow bg-light">
-			                <h1 class="text-success mb-2" th:text="${bookCount}">0</h1>
-			                <p class="fw-bold text-success">SÁCH - GIÁO TRÌNH</p>
-			            </div>
-			        </a>
-			    </div>
-			
-			    <!-- Bài báo -->
-			    <div class="col-md-4">
-			        <a th:href="@{'/scientists/' + ${scientist.id} + '/articles'}" class="text-decoration-none">
-			            <div class="border rounded p-4 h-100 shadow-sm hover-shadow bg-light">
-			                <h1 class="text-danger mb-2" th:text="${articleCount}">0</h1>
-			                <p class="fw-bold text-danger">BÀI BÁO</p>
-			            </div>
-			        </a>
+			    <div th:if="${requestURI == '/scientists/profile'}">
+			        <a th:href="@{/scientists/edit}" class="btn btn-warning mt-2">Chỉnh sửa thông tin</a>
+			        <!-- Nút đổi mật khẩu -->
+			        <a th:href="@{/user/change-password}" class="btn btn-outline-primary mt-2">Đổi mật khẩu</a>
 			    </div>
 			</div>
-
-		
-		    <div class="row">
-		      <!-- Thông tin -->
-		      <div class="col-md-6">
-		        <h5 class="border-bottom pb-2 mb-3 text-danger">Thông tin:</h5>
-		        <p><strong>Họ và tên:</strong> <span th:text="${scientist.fullName}"></span></p>
-		        <p><strong>Giới tính:</strong> <span th:text="${scientist.gender}"></span></p>
-		        <p><strong>Năm sinh:</strong> <span th:text="${scientist.birthYear}"></span></p>
-		        <p><strong>Địa chỉ:</strong> <span th:text="${scientist.address}"></span></p>
-		        <p><strong>Điện thoại:</strong> <span th:text="${scientist.phoneNumber}"></span></p>
-		        <p><strong>Email:</strong> <span th:text="${scientist.email}"></span></p>
-		      </div>
-		
-		      <!-- Chuyên môn -->
-		      <div class="col-md-6">
-		        <h5 class="border-bottom pb-2 mb-3 text-danger">Chuyên môn:</h5>
-		        <p><strong>Chức danh:</strong> <span th:text="${scientist.title.name}"></span></p>
-		        <p><strong>Ngạch:</strong> <span th:text="${scientist.rank != null ? scientist.rank.name : 'Chưa có'}"></span></p>
-		        <p><strong>Ngành đào tạo:</strong> <span th:text="${scientist.subMajor}"></span></p>
-		        <p><strong>Chuyên môn giảng dạy:</strong> <span th:text="${scientist.teachingSpecialty}"></span></p>
-		        <p><strong>Lĩnh vực nghiên cứu:</strong> <span th:text="${scientist.researchField != null ? scientist.researchField.name : 'Chưa có'}"></span></p>
-		        <p><strong>Trình độ ngoại ngữ:</strong> <span th:text="${scientist.languageLevel}"></span></p>
-		      </div>
-		    </div>
+			  <div class="col-md-9">
+				<div class="row text-center mb-5">
+				    <!-- Dự án -->
+				    <div class="col-md-4">
+				        <a th:href="@{'/scientists/' + ${scientist.id} + '/projects'}" class="text-decoration-none">
+				            <div class="border rounded p-4 h-100 shadow-sm hover-shadow bg-light">
+				                <h1 class="text-primary mb-2" th:text="${projectCount}">0</h1>
+				                <p class="fw-bold text-primary">ĐỀ TÀI KHOA HỌC</p>
+				            </div>
+				        </a>
+				    </div>
+				
+				    <!-- Sách -->
+				    <div class="col-md-4">
+				        <a th:href="@{'/scientists/' + ${scientist.id} + '/books'}" class="text-decoration-none">
+				            <div class="border rounded p-4 h-100 shadow-sm hover-shadow bg-light">
+				                <h1 class="text-success mb-2" th:text="${bookCount}">0</h1>
+				                <p class="fw-bold text-success">SÁCH - GIÁO TRÌNH</p>
+				            </div>
+				        </a>
+				    </div>
+				
+				    <!-- Bài báo -->
+				    <div class="col-md-4">
+				        <a th:href="@{'/scientists/' + ${scientist.id} + '/articles'}" class="text-decoration-none">
+				            <div class="border rounded p-4 h-100 shadow-sm hover-shadow bg-light">
+				                <h1 class="text-danger mb-2" th:text="${articleCount}">0</h1>
+				                <p class="fw-bold text-danger">BÀI BÁO</p>
+				            </div>
+				        </a>
+				    </div>
+				</div>
+	
+			
+			    <div class="row">
+			      <!-- Thông tin -->
+			      <div class="col-md-6">
+			        <h5 class="border-bottom pb-2 mb-3 text-danger">Thông tin:</h5>
+			        <p><strong>Họ và tên:</strong> <span th:text="${scientist.fullName}"></span></p>
+			        <p><strong>Giới tính:</strong> <span th:text="${scientist.gender}"></span></p>
+			        <p><strong>Năm sinh:</strong> <span th:text="${scientist.birthYear}"></span></p>
+			        <p><strong>Địa chỉ:</strong> <span th:text="${scientist.address}"></span></p>
+			        <p><strong>Điện thoại:</strong> <span th:text="${scientist.phoneNumber}"></span></p>
+			        <p><strong>Email:</strong> <span th:text="${scientist.email}"></span></p>
+			      </div>
+			
+			      <!-- Chuyên môn -->
+			      <div class="col-md-6">
+			        <h5 class="border-bottom pb-2 mb-3 text-danger">Chuyên môn:</h5>
+			        <p><strong>Chức danh:</strong> <span th:text="${scientist.title.name}"></span></p>
+			        <p><strong>Ngạch:</strong> <span th:text="${scientist.rank != null ? scientist.rank.name : 'Chưa có'}"></span></p>
+			        <p><strong>Ngành đào tạo:</strong> <span th:text="${scientist.subMajor}"></span></p>
+			        <p><strong>Chuyên môn giảng dạy:</strong> <span th:text="${scientist.teachingSpecialty}"></span></p>
+			        <p><strong>Lĩnh vực nghiên cứu:</strong> <span th:text="${scientist.researchField != null ? scientist.researchField.name : 'Chưa có'}"></span></p>
+			        <p><strong>Trình độ ngoại ngữ:</strong> <span th:text="${scientist.languageLevel}"></span></p>
+			      </div>
+			    </div>
+			  </div>
+			</div>
 		  </div>
-		</div>
-	  </div>
-	<div class="container-fluid">
-		 <!-- Đơn vị quản lý -->
-		<div class="mb-5">
-		    <h5 class="mb-3">Đơn vị quản lý</h5>
-		    <div class="table-responsive">
-		        <table class="table table-bordered table-striped table-hover align-middle w-100">
-		            <thead>
-		                <tr>
-		                    <th>Tên đơn vị</th>
-		                    <th>Địa chỉ</th>
-		                    <th>Điện thoại</th>
-		                    <th>Email</th>
-		                </tr>
-		            </thead>
-		            <tbody>
-		                <tr>
-		                    <td th:text="${scientist.organization.name}"></td>
-		                    <td th:text="${scientist.organization.address}"></td>
-		                    <td th:text="${scientist.organization.phoneNumber}"></td>
-		                    <td th:text="${scientist.organization.email}"></td>
-		                </tr>
-		            </tbody>
-		        </table>
-		    </div>
-		</div>
-	
-		  <!-- Quá trình công tác -->
-		<div class="mb-5">
-		    <h5 class="mb-3">Quá trình công tác</h5>
-		    <div class="table-responsive">
-		        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
-		            <thead>
-		                <tr>
-		                    <th>Thời gian bắt đầu</th>
-		                    <th>Thời gian kết thúc</th>
-		                    <th>Chức vụ</th>
-		                    <th>Đơn vị</th>
-		                    <th>Vị trí</th>
-		                </tr>
-		            </thead>
-		            <tbody>
-		                <tr th:each="wh : ${workHistories}">
-		                    <td th:text="${wh.startDate}"></td>
-		                    <td th:text="${wh.endDate}"></td>
-		                    <td th:text="${wh.title}"></td>
-		                    <td th:text="${wh.organization.name}"></td>
-		                    <td th:text="${wh.position}"></td>
-		                </tr>
-		            </tbody>
-		        </table>
-		    </div>
-		</div>
-	
-		<div class="mb-5">
-		    <h5 class="mb-3">Quá trình đào tạo</h5>
-		    <div class="table-responsive">
-		        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
-		            <thead>
-		                <tr>
-		                    <th>Cấp độ</th>
-		                    <th>Cơ sở đào tạo</th>
-		                    <th>Ngành học</th>
-		                    <th>Năm tốt nghiệp</th>
-		                </tr>
-		            </thead>
-		            <tbody>
-		                <tr th:each="ed : ${educationHistories}">
-		                    <td th:text="${ed.level}"></td>
-		                    <td th:text="${ed.institution}"></td>
-		                    <td th:text="${ed.major}"></td>
-		                    <td th:text="${ed.graduationYear}"></td>
-		                </tr>
-		            </tbody>
-		        </table>
-		    </div>
+		<div class="container-fluid">
+			 <!-- Đơn vị quản lý -->
+			<div class="mb-5">
+			    <h5 class="mb-3">Đơn vị quản lý</h5>
+			    <div class="table-responsive">
+			        <table class="table table-bordered table-striped table-hover align-middle w-100">
+			            <thead>
+			                <tr>
+			                    <th>Tên đơn vị</th>
+			                    <th>Địa chỉ</th>
+			                    <th>Điện thoại</th>
+			                    <th>Email</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr>
+			                    <td th:text="${scientist.organization.name}"></td>
+			                    <td th:text="${scientist.organization.address}"></td>
+			                    <td th:text="${scientist.organization.phoneNumber}"></td>
+			                    <td th:text="${scientist.organization.email}"></td>
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+		
+			  <!-- Quá trình công tác -->
+			<div class="mb-5">
+			    <h5 class="mb-3">Quá trình công tác</h5>
+			    <div class="table-responsive">
+			        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
+			            <thead>
+			                <tr>
+			                    <th>Thời gian bắt đầu</th>
+			                    <th>Thời gian kết thúc</th>
+			                    <th>Chức vụ</th>
+			                    <th>Đơn vị</th>
+			                    <th>Vị trí</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr th:each="wh : ${workHistories}">
+			                    <td th:text="${wh.startDate}"></td>
+			                    <td th:text="${wh.endDate}"></td>
+			                    <td th:text="${wh.title}"></td>
+			                    <td th:text="${wh.organization.name}"></td>
+			                    <td th:text="${wh.position}"></td>
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
+		
+			<div class="mb-5">
+			    <h5 class="mb-3">Quá trình đào tạo</h5>
+			    <div class="table-responsive">
+			        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
+			            <thead>
+			                <tr>
+			                    <th>Cấp độ</th>
+			                    <th>Cơ sở đào tạo</th>
+			                    <th>Ngành học</th>
+			                    <th>Năm tốt nghiệp</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr th:each="ed : ${educationHistories}">
+			                    <td th:text="${ed.level}"></td>
+			                    <td th:text="${ed.institution}"></td>
+			                    <td th:text="${ed.major}"></td>
+			                    <td th:text="${ed.graduationYear}"></td>
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
 		</div>
 	</div>
-</div>
 
     <footer th:replace="~{layout :: footer}"></footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
