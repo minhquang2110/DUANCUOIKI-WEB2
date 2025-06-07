@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
@@ -91,15 +92,115 @@ public class ScientistController {
     }
 
     @GetMapping("/scientists/profile")
-    public String profileScientist(Model model,Authentication authentication) {
-    	User account =  (User) authentication.getPrincipal();
-    	model.addAttribute("scientist",account.getScientist());
-    	return "scientist/details_scientist";
-    
+    public String profileScientist(Model model, Authentication authentication, HttpServletRequest request) {
+        User account = (User) authentication.getPrincipal();
+        Scientist s = account.getScientist();
+        Integer id = s.getId();
+
+        model.addAttribute("scientist", s);
+        model.addAttribute("workHistories", workHistoryService.findByScientistId(id));
+        model.addAttribute("educationHistories", educationHistoryService.findByScientistId(id));
+        model.addAttribute("pro", projectParticipantService.findByScientistId(id).size());
+        model.addAttribute("bo", bookService.findByScientistId(id).size());
+        model.addAttribute("art", articleAuthorService.getArticlesByAuthorId(id).size());
+
+        model.addAttribute("organization", s.getOrganization());
+
+        int projectCount = projectService.countByScientistId(id);
+        int bookCount = bookService.countByScientistId(id);
+        int articleCount = articleService.countByScientistId(id);
+
+        model.addAttribute("projectCount", projectCount);
+        model.addAttribute("bookCount", bookCount);
+        model.addAttribute("articleCount", articleCount);
+        model.addAttribute("requestURI", request.getRequestURI());
+
+        return "scientist/details_scientist";
     }
 
+    @GetMapping("/scientists/edit")
+    public String editScientistForm(Model model, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        Scientist scientist = account.getScientist();
+
+        model.addAttribute("scientist", scientist);
+        model.addAttribute("work_history", workHistoryService.findByScientistId(scientist.getId()));
+        model.addAttribute("education_history", educationHistoryService.findByScientistId(scientist.getId()));
+
+        return "scientist/edit_scientist";
+    }
+
+    @PostMapping("/scientists/edit")
+    public String updateScientist(@ModelAttribute Scientist updatedScientist, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        Scientist existing = account.getScientist();
+
+        // Chỉ cập nhật các trường cơ bản
+        existing.setFullName(updatedScientist.getFullName());
+        existing.setGender(updatedScientist.getGender());
+        existing.setBirthYear(updatedScientist.getBirthYear());
+        existing.setAddress(updatedScientist.getAddress());
+        existing.setPhoneNumber(updatedScientist.getPhoneNumber());
+        existing.setEmail(updatedScientist.getEmail());
+
+        scientistService.save(existing);
+        return "redirect:/scientists/profile?success";
+    }
+//    
+    @GetMapping("/scientists/edit/education/{id}")
+    public String editEducationForm(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        Optional<EducationHistory> edu = educationHistoryService.findByIdAndScientistId(id, account.getScientist().getId());
+        if (edu == null) {
+            return "redirect:/scientists/edit?error=notfound";
+        }
+        model.addAttribute("educationHistory", edu);
+        return "scientist/edit_education";
+    }
+
+    @GetMapping("/scientists/edit/education/new")
+    public String newEducationForm(Model model) {
+        model.addAttribute("educationHistory", new EducationHistory());
+        return "scientist/edit_education";
+    }
+
+    @PostMapping("/scientists/edit/education")
+    public String saveEducation(@ModelAttribute EducationHistory educationHistory, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        educationHistory.setScientist(account.getScientist());
+        educationHistoryService.saveEducationHistory(educationHistory);
+        return "redirect:/scientists/edit?success=education";
+    }
+//    
+    @GetMapping("/scientists/edit/work/{id}")
+    public String editWorkForm(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        Optional<WorkHistory> work = workHistoryService.findByIdAndScientistId(id, account.getScientist().getId());
+        if (work == null) {
+            return "redirect:/scientists/edit?error=notfound";
+        }
+        model.addAttribute("workHistory", work);
+        // Nếu form cần list tổ chức, bạn cũng có thể thêm: model.addAttribute("organizations", organizationService.findAll());
+        return "scientist/edit_work";
+    }
+
+    @GetMapping("/scientists/edit/work/new")
+    public String newWorkForm(Model model) {
+        model.addAttribute("workHistory", new WorkHistory());
+        // model.addAttribute("organizations", organizationService.findAll());
+        return "scientist/edit_work";
+    }
+
+    @PostMapping("/scientists/edit/work")
+    public String saveWork(@ModelAttribute WorkHistory workHistory, Authentication authentication) {
+        User account = (User) authentication.getPrincipal();
+        workHistory.setScientist(account.getScientist());
+        workHistoryService.saveWorkHistory(workHistory);
+        return "redirect:/scientists/edit?success=work";
+    }
+//
     @GetMapping("scientists/details/{id}")
-    public String showScientistDetails(@PathVariable Integer id, Model model) {
+    public String showScientistDetails(@PathVariable Integer id, Model model, HttpServletRequest request) {
         Optional<Scientist> scientistOpt = scientistService.getScientistById(id);
         if (scientistOpt.isEmpty()) {
             return "redirect:/scientists?error=notfound";
@@ -121,7 +222,7 @@ public class ScientistController {
         model.addAttribute("projectCount", projectCount);
         model.addAttribute("bookCount", bookCount);
         model.addAttribute("articleCount", articleCount);
-
+        model.addAttribute("requestURI", request.getRequestURI());
         return "scientist/details_scientist"; 
     }
 

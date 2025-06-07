@@ -40,4 +40,14 @@ public interface ScientistRepository extends JpaRepository<Scientist, Integer>, 
     @Query("DELETE FROM Scientist s WHERE s.id = :id")
     void deleteScientistById(@Param("id") Integer id);
 
+    // Giả sử ID là Long
+
+    // Câu truy vấn JPQL để tìm kiếm trên nhiều trường
+    // CAST(s.id AS string) để có thể tìm kiếm ID giống như một chuỗi
+    @Query("SELECT s FROM Scientist s WHERE " +
+            "LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(s.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(s.gender) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "CAST(s.id AS string) LIKE CONCAT('%', :keyword, '%')")
+    List<Scientist> search(String keyword);
 }

@@ -2,6 +2,8 @@ package ntu.edu.nhom13.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ntu.edu.nhom13.entity.EducationHistory;
 import ntu.edu.nhom13.entity.WorkHistory;
 import ntu.edu.nhom13.repositories.WorkHistoryRepository;
 
@@ -32,5 +34,9 @@ public class WorkHistoryService {
 
 	public List<WorkHistory> findByScientistId(Integer id) {
 		return workHistoryRepository.findByScientistId(id);
+	}
+
+	public Optional<WorkHistory> findByIdAndScientistId(Integer id, Integer scientistId) {
+	    return workHistoryRepository.findByIdAndScientistId(id, scientistId);
 	}
 }

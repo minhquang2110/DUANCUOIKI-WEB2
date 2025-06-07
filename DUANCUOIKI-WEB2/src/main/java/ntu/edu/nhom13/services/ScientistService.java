@@ -87,6 +87,10 @@ public class ScientistService {
         return scientistRepository.findById(id);
     }
 
+    public Scientist save(Scientist scientist) {
+        return scientistRepository.save(scientist);
+    }
+    
     public void saveScientist(ScientistDTO scientist) throws IOException {
         Scientist sc = new Scientist();
         Account account = new Account();
@@ -145,7 +149,6 @@ public class ScientistService {
         // Lưu scientist (cascade tự động lưu account nếu bạn set cascade)
         scientistRepository.save(sc);
     }
-
 
     public void deleteScientist(Integer id) {
         scientistRepository.deleteById(id);
@@ -223,4 +226,11 @@ public class ScientistService {
         }
         return ids;
     }
+
+    // Phương thức mới để tìm kiếm
+    public List<Scientist> searchScientists(String keyword) {
+        return scientistRepository.search(keyword);
+    }
+
+    // ... các phương thức khác của bạn (save, delete, etc.)
 }

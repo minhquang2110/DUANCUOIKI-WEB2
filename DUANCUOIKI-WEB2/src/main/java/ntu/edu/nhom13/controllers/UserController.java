@@ -17,10 +17,6 @@ import ntu.edu.nhom13.services.ScientistService;
 public class UserController{
 	@Autowired
 	private AccountService accountService;
-	@Autowired
-	private ScientistService scientistService;
-	@Autowired
-	private AdminService adminService;
 	
 	@GetMapping("/loginTemplate")
 	public String lo() {
@@ -34,26 +30,7 @@ public class UserController{
 	}
 	
 	
-//	@PostMapping("/login")
-//	public String login(@RequestParam("username") String username,@RequestParam("password") String password,Model model,HttpSession session) {
-//		Account a=accountService.findByUsername(username);
-//		if(a==null) {
-//			return "users/login";
-//		}
-//		System.out.println(a.getUsername());
-//		if(a.getPassword().equals(password)) {
-//			if(a.getRole().toString().equals("Admin")) {
-//				session.setAttribute("user", adminService.getAdminByAccountId(a.getAccountId()));
-//				return "redirect:/admins/profile";
-//			}else {
-//				session.setAttribute("user", scientistService.getScientistByAccountId(a.getAccountId()));
-//		        return "redirect:/scientists/profile";
-//			}
-//		}else {
-//			return "users/login";
-//		}
-//	}
-//	
+
 	@GetMapping("/user/logout")
 	public String logout(HttpSession session) {
 		if(session!=null) {
@@ -62,39 +39,14 @@ public class UserController{
 		return "/users/login";
 	}
 
-	@GetMapping("/user/forgot-password")
-	public String showForgotPasswordForm() {
-		return "users/forgot-password";
-	}
-
-	@GetMapping("/user/reset-password")
-	public String resetPassword(
-			@RequestParam("username") String username,
-			@RequestParam("newPassword") String newPassword,
-			Model model
-	) {
-		Account account = accountService.findByUsername(username);
-
-		if (account != null) {
-			account.setPassword(newPassword); // Nếu dùng mã hoá thì xử lý ở đây
-			accountService.saveAccount(account);
-			model.addAttribute("message", "Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại.");
-		} else {
-			model.addAttribute("error", "Không tìm thấy tài khoản với username đã nhập.");
-		}
-
-		return "/users/forgot-password";
-	}
-
-
 	private boolean isValidPassword(String password) {
 		return password != null && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
 	}
+	
 	@GetMapping("/user/change-password")
 	public String showChangePasswordForm() {
-		return "/users/change-password"; // Trả về trang HTML chứa form
+		return "/users/change-password"; 
 	}
-
 
 	@PostMapping("/user/change-password")
 	public String changePassword(
@@ -126,6 +78,4 @@ public class UserController{
 		model.addAttribute("message", "✅ Đổi mật khẩu thành công.");
 		return "/users/change-password";
 	}
-
-
 }

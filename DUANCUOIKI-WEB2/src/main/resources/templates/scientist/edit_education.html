@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thêm Mới Quá trình đào tạo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<style>
+	    h5 {
+	        font-weight: bold;
+	        color: #0d6efd;
+	        padding-left: 10px;
+	    }
+	    .table th {
+	        background-color: #f8f9fa;
+	        font-weight: 600;
+	        color: #495057;
+	        text-transform: uppercase;
+	    }
+	    .table td {
+	        color: #333;
+	    }
+	    .table-striped tbody tr:nth-of-type(odd) {
+	        background-color: #f2f2f2;
+	    }
+	    .table-hover tbody tr:hover {
+	        background-color: #e2e6ea;
+	        transition: background-color 0.3s ease;
+	    }
+	    .table-bordered {
+	        border: 1px solid #dee2e6;
+	    }
+	</style>
+</head>
+<body>
+	<nav th:replace="~{layout :: header}"></nav>
+	<nav th:replace="~{layout :: menu}"></nav>
+	<div class="container mt-4">
+	    <h3 th:text="${educationHistory.id == null} ? 'Thêm mới Lịch sử học tập' : 'Chỉnh sửa Lịch sử học tập'"></h3>
+	    <form th:action="@{/scientists/edit/education}" th:object="${educationHistory}" method="post">
+	        <input type="hidden" th:field="*{id}"/>
+	        <div class="mb-3">
+	            <label for="level" class="form-label">Trình độ</label>
+	            <input type="text" class="form-control" id="level" th:field="*{level}" placeholder="Ví dụ: Đại học, Thạc sĩ"/>
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="institution" class="form-label">Cơ sở đào tạo</label>
+	            <input type="text" class="form-control" id="institution" th:field="*{institution}" placeholder="Tên trường"/>
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="major" class="form-label">Ngành học</label>
+	            <input type="text" class="form-control" id="major" th:field="*{major}" placeholder="Chuyên ngành"/>
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="graduationYear" class="form-label">Năm tốt nghiệp</label>
+	            <input type="number" class="form-control" id="graduationYear" th:field="*{graduationYear}" placeholder="Năm tốt nghiệp"/>
+	        </div>
+	
+	        <button type="submit" class="btn btn-primary">Lưu</button>
+	        <a th:href="@{/scientists/edit}" class="btn btn-secondary ms-2">Hủy</a>
+	    </form>
+	</div>
+    <footer th:replace="~{layout :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
+</body>
+</html>
