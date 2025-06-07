@@ -1,6 +1,5 @@
 package ntu.edu.nhom13.controllers;
 
-import ntu.edu.nhom13.dto.ScientistDTO;
 import ntu.edu.nhom13.entity.*;
 import ntu.edu.nhom13.repositories.DegreeRepository;
 import ntu.edu.nhom13.repositories.ResearchFieldRepository;
@@ -15,7 +14,6 @@ import ntu.edu.nhom13.services.ScientistService;
 import ntu.edu.nhom13.services.WorkHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +29,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -137,7 +134,7 @@ public class ScientistController {
     }
 
     @PostMapping("/scientists/edit")
-    public String updateScientist(@ModelAttribute ScientistDTO updatedScientist, Authentication authentication, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+    public String updateScientist(@ModelAttribute Scientist updatedScientist, Authentication authentication, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
         User account = (User) authentication.getPrincipal();
         Scientist existing = account.getScientist();
 
@@ -146,7 +143,7 @@ public class ScientistController {
         existing.setGender(updatedScientist.getGender());
         existing.setBirthYear(updatedScientist.getBirthYear());
         existing.setAddress(updatedScientist.getAddress());
-        existing.setPhoneNumber(updatedScientist.getPhone());
+        existing.setPhoneNumber(updatedScientist.getPhoneNumber());
         existing.setEmail(updatedScientist.getEmail());
         existing.setEmail(updatedScientist.getEmail());
         if (imageFile != null && !imageFile.isEmpty()) {

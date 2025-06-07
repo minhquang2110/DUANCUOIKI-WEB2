@@ -36,5 +36,9 @@ public class EducationHistoryService {
 	public Optional<EducationHistory> findByIdAndScientistId(Integer id, Integer scientistId) {
 	    return educationHistoryRepository.findByIdAndScientistId(id, scientistId);
 	}
+	
+	public Optional<EducationHistory> findById(Integer id) {
+	    return educationHistoryRepository.findById(id);
+	}
 
 }

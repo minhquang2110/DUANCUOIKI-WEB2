@@ -1,8 +1,5 @@
 package ntu.edu.nhom13.entity;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import jakarta.persistence.*;
 
 @Entity
