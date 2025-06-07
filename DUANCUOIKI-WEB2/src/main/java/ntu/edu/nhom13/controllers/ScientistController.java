@@ -61,7 +61,7 @@ public class ScientistController {
     private ResearchFieldRepository researchFieldRepository;
     
 
-    @GetMapping({"/scientists", "/scientists/list"})
+    @GetMapping({"/scientists/filter", "/scientists/list"})
     public String listScientists(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) Integer degreeId,

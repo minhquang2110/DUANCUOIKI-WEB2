@@ -124,8 +124,17 @@
 	                </h4>
 	            </div>
 	            <div>
-	                <a href="/logout" th:text="${#ctx.session.isEmpty()? 'Đăng nhập' : 'Đăng xuất'}"
-	                   class="btn btn-danger rounded-pill px-4"></a>
+	                <a th:if="${#authorization.expression('isAuthenticated()')}"
+					   href="/logout"
+					   class="btn btn-primary rounded-pill px-4">
+					    Đăng xuất
+					</a>
+					
+					<a th:if="${#authorization.expression('isAnonymous()')}"
+					   href="/login"
+					   class="btn btn-primary rounded-pill px-4">
+					    Đăng nhập
+					</a>
 	            </div>
 	            <div>
 	        </div>
