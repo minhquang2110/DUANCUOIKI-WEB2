@@ -78,12 +78,13 @@ public class SecurityConfig {
                 .requestMatchers(ALL_PEOPLE).hasAnyRole("Scientist", "Admin")
                 .anyRequest().authenticated()
             )
-            .formLogin(form -> form
-                .loginPage("/loginTemplate") 
-                .loginProcessingUrl("/login") 
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
+	            .formLogin(form -> form
+	                .loginPage("/loginTemplate") 
+	                .loginProcessingUrl("/login") 
+	                .defaultSuccessUrl("/", true)
+	                .failureUrl("/user/loginTemplateFailed")
+	                .permitAll()
+	            )
             .logout(logout -> logout.permitAll())
             .userDetailsService(customUserDetailsService)
             .build();

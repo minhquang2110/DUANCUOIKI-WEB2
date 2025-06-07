@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import ntu.edu.nhom13.entity.Account;
 import ntu.edu.nhom13.entity.Admin;
@@ -37,7 +38,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 //            .password(passwordEncoder.encode(user.getPassword())) 
 //            .roles(user.getRole().toString()) 
 //            .build();
-        
+        if(user == null) {
+        	
+        }
         if(user.getRole().toString()=="Admin") {
         	Admin scientist= adminService.getAdminByAccountId(user.getAccountId());
         	return new 	User(user,scientist);
@@ -45,5 +48,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         	Scientist scientist= scientistService.getScientistByAccountId(user.getAccountId());
         	return new 	User(user,scientist);
         }
+    }
+    
+    public String loginFailed(Model model) {
+    	model.addAttribute("failed","Tên đăng nhập hay mật khẩu sai");
+    	return "loginTemplate";
     }
 }

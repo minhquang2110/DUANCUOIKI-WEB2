@@ -22,6 +22,14 @@ public class UserController{
 	public String lo() {
 		return "/users/login";
 	}
+	
+	@GetMapping("/user/loginTemplateFailed")
+	public String loginFailed(Model model) {
+		model.addAttribute("failed","Tên đăng nhập hoặc mật khẩu sai");
+		return "/users/login";
+	}
+	
+	
 
 	@GetMapping("/user/logout")
 	public String logout(HttpSession session) {
