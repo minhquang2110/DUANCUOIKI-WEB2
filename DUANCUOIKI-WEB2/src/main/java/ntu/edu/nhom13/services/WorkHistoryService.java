@@ -39,4 +39,9 @@ public class WorkHistoryService {
 	public Optional<WorkHistory> findByIdAndScientistId(Integer id, Integer scientistId) {
 	    return workHistoryRepository.findByIdAndScientistId(id, scientistId);
 	}
+
+	public Optional<WorkHistory> findById(Integer id) {
+	    return workHistoryRepository.findById(id);  
+	}
+
 }

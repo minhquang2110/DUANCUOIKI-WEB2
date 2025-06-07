@@ -13,6 +13,9 @@
 <nav th:replace="~{layout :: menu}"></nav>
 
 <div class="container mt-5">
+	<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+	<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
     <h2 class="mb-4">Sửa nhà khoa học</h2>
     <form th:action="@{/admin/edit/save}" th:object="${scientist}" method="post" enctype="multipart/form-data" class="row g-3">
 
@@ -156,6 +159,81 @@
             <button type="submit" class="btn btn-primary">Sửa thông tin</button>
         </div>
     </form>
+	
+	<div class="mb-5">
+	    <div class="d-flex justify-content-between align-items-center mb-3">
+	        <h5 class="mb-0">Quá trình công tác</h5>
+			<a th:href="@{'/admin/edit/work/new'(scientistId=${scientist.id})}" class="btn btn-success btn-sm">Thêm công tác</a>
+	    </div>
+	    <div class="table-responsive">
+	        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
+	            <thead>
+	                <tr>
+	                    <th>Thời gian bắt đầu</th>
+	                    <th>Thời gian kết thúc</th>
+	                    <th>Chức danh</th>
+	                    <th>Đơn vị</th>
+	                    <th>Chức vụ</th>
+	                    <th>Hành động</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr th:each="wh : ${workHistories}">
+	                    <td th:text="${wh.startDate}"></td>
+	                    <td th:text="${wh.endDate}"></td>
+	                    <td th:text="${wh.title}"></td>
+	                    <td th:text="${wh.organization}"></td>
+	                    <td th:text="${wh.position}"></td>
+	                    <td>
+	                        <div class="d-flex gap-2">
+	                            <a th:href="@{'/admin/edit/work/' + ${wh.id}}" class="btn btn-sm btn-primary">Sửa</a>
+	                            <form th:action="@{/admin/delete/work/{id}(id=${wh.id})}" method="post"
+	                                  onsubmit="return confirm('Bạn có chắc muốn xóa công tác này?');">
+	                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+	                            </form>
+	                        </div>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
+	<div class="mb-5">
+	    <div class="d-flex justify-content-between align-items-center mb-3">
+	        <h5 class="mb-0">Quá trình đào tạo</h5>
+	        <a th:href="@{'/admin/edit/education/new'(scientistId=${scientist.id})}" class="btn btn-success btn-sm">Thêm đào tạo</a>
+	    </div>
+	    <div class="table-responsive">
+	        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
+	            <thead>
+	                <tr>
+	                    <th>Trình độ</th>
+	                    <th>Cơ sở đào tạo</th>
+	                    <th>Ngành học</th>
+	                    <th>Năm tốt nghiệp</th>
+	                    <th>Hành động</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr th:each="ed : ${educationHistories}">
+	                    <td th:text="${ed.level}"></td>
+	                    <td th:text="${ed.institution}"></td>
+	                    <td th:text="${ed.major}"></td>
+	                    <td th:text="${ed.graduationYear}"></td>
+						<td>
+						    <div class="d-flex gap-2">
+						        <a th:href="@{'/admin/edit/education/' + ${ed.id}}" class="btn btn-sm btn-primary">Sửa</a>
+						        <form th:action="@{/admin/delete/education/{id}(id=${ed.id})}" method="post"
+						              onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+						            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+						        </form>
+						    </div>
+						</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	</div>	    
 </div>
 
 <footer th:replace="~{layout :: footer}"></footer>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${educationHistory.id == null} ? 'Thêm mới Quá trình đào tạo' : 'Chỉnh sửa Quá trình đào tạo'">Chỉnh sửa Quá trình đào tạo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>		
+	<nav th:replace="~{layout :: header}"></nav>	
+	<nav th:replace="~{layout :: menu}"></nav>
+	<div class="container mt-4">
+
+	    <h3 th:text="${educationHistory.id == null} ? 'Thêm mới Quá trình đào tạo' : 'Chỉnh sửa Quá trình đào tạo'"></h3>
+	    
+	    <form th:action="@{/admin/edit/education/save}" th:object="${educationHistory}" method="post">
+	        <input type="hidden" th:field="*{id}"/>
+	        <!-- Hidden field để giữ scientistId -->
+	        <input type="hidden" name="scientistId" th:value="${scientistId}"/>
+	        
+	        <div class="mb-3">
+	            <label for="level" class="form-label">Trình độ</label>
+	            <input type="text" class="form-control" id="level" th:field="*{level}" placeholder="Nhập trình độ"/>
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="institution" class="form-label">Cơ sở đào tạo</label>
+	            <input type="text" class="form-control" id="institution" th:field="*{institution}" placeholder="Nhập cơ sở đào tạo"/>
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="major" class="form-label">Ngành học</label>
+	            <input type="text" class="form-control" id="major" th:field="*{major}" placeholder="Nhập ngành học"/>
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="graduationYear" class="form-label">Năm tốt nghiệp</label>
+	            <input type="number" class="form-control" id="graduationYear" th:field="*{graduationYear}" placeholder="Nhập năm tốt nghiệp"/>
+	        </div>
+	
+	        <button type="submit" class="btn btn-primary">Lưu</button>
+	        <a th:href="@{/admin/edit/scientist/{id}(id=${scientistId})}" class="btn btn-secondary ms-2">Hủy</a>
+	    </form>
+	</div>
+    <footer th:replace="~{layout :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
+</body>
+</html>
