@@ -24,7 +24,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -32,6 +36,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,7 +51,8 @@ public class ScientistController {
     @Autowired private ProjectService projectService;
     @Autowired private BookService bookService;
     @Autowired private ArticleService articleService;
-
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Autowired
     private DegreeRepository degreeRepository;
@@ -131,7 +137,7 @@ public class ScientistController {
     }
 
     @PostMapping("/scientists/edit")
-    public String updateScientist(@ModelAttribute Scientist updatedScientist, Authentication authentication) {
+    public String updateScientist(@ModelAttribute ScientistDTO updatedScientist, Authentication authentication, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
         User account = (User) authentication.getPrincipal();
         Scientist existing = account.getScientist();
 
@@ -140,8 +146,15 @@ public class ScientistController {
         existing.setGender(updatedScientist.getGender());
         existing.setBirthYear(updatedScientist.getBirthYear());
         existing.setAddress(updatedScientist.getAddress());
-        existing.setPhoneNumber(updatedScientist.getPhoneNumber());
+        existing.setPhoneNumber(updatedScientist.getPhone());
         existing.setEmail(updatedScientist.getEmail());
+        existing.setEmail(updatedScientist.getEmail());
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Map uploadResult = cloudinary.uploader().upload(imageFile.getBytes(),
+                    ObjectUtils.asMap("resource_type", "auto"));
+            String imageUrl = (String) uploadResult.get("secure_url");
+            existing.setImage(imageUrl);
+        }
 
         scientistService.save(existing);
         return "redirect:/scientists/profile?success";
