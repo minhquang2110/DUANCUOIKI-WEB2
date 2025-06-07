@@ -4,8 +4,6 @@ import jakarta.transaction.Transactional;
 import ntu.edu.nhom13.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -23,47 +21,53 @@ import ntu.edu.nhom13.entity.ResearchField;
 import ntu.edu.nhom13.entity.Scientist;
 import ntu.edu.nhom13.entity.Title;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Queue;
 import java.util.Set;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 @Service
 public class ScientistService {
-    @Autowired private ScientistRepository scientistRepository;
-    @Autowired private BookAuthorRepository bookAuthorRepository;
-    @Autowired private ArticleAuthorRepository articleAuthorRepository;
-    @Autowired private ProjectParticipantRepository projectParticipantRepository;
-    @Autowired private WorkHistoryRepository workHistoryRepository;
-    @Autowired private EducationHistoryRepository educationHistoryRepository;
+    @Autowired 
+    private ScientistRepository scientistRepository;
+    
+    @Autowired 
+    private BookAuthorRepository bookAuthorRepository;
+    
+    @Autowired 
+    private ArticleAuthorRepository articleAuthorRepository;
+    
+    @Autowired 
+    private ProjectParticipantRepository projectParticipantRepository;
+    
+    @Autowired 
+    private WorkHistoryRepository workHistoryRepository;
+    
+    @Autowired 
+    private EducationHistoryRepository educationHistoryRepository;
 
     @Autowired
     private DegreeRepository degreeRepository;
+    
     @Autowired
     private RankRepository rankRepository;
+    
     @Autowired
     private TitleRepository titleRepository;
+    
     @Autowired
     private OrganizationRepository organizationRepository;
+    
     @Autowired
     private  LanguageLevelRepository languageLevelRepository;
-    @Autowired
-    private  AccountRepository accountRepository;
     
     @Autowired
     private BookRepository bookRepository;
@@ -176,9 +180,6 @@ public class ScientistService {
         return scientistRepository.findAll();
     }
 
-//    public void save(ScientistDTO scientist) {
-//        scientistRepository.save(scientist);
-//    }
     @Transactional
     public void deleteById(Integer id) {
         // Xóa các bản ghi liên quan trước
@@ -227,10 +228,8 @@ public class ScientistService {
         return ids;
     }
 
-    // Phương thức mới để tìm kiếm
     public List<Scientist> searchScientists(String keyword) {
         return scientistRepository.search(keyword);
     }
 
-    // ... các phương thức khác của bạn (save, delete, etc.)
 }

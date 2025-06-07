@@ -4,13 +4,10 @@ import ntu.edu.nhom13.dto.ScientistDTO;
 import ntu.edu.nhom13.entity.Scientist;
 
 public class ScientMapper {
-
-        // ... các fields và getters/setters giữ nguyên
-
 		public static ScientistDTO fromEntity(Scientist scientist) {
 		    ScientistDTO dto = new ScientistDTO();
 	
-		    dto.setId(scientist.getId());  // <-- thêm dòng này
+		    dto.setId(scientist.getId());
 	
 		    dto.setFullName(scientist.getFullName());
 		    dto.setEmail(scientist.getEmail());

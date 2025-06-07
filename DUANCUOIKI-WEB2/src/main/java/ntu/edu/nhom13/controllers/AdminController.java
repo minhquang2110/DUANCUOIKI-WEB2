@@ -16,19 +16,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import ntu.edu.nhom13.dto.ScientistDTO;
-import ntu.edu.nhom13.entity.Admin;
+
 import ntu.edu.nhom13.entity.EducationHistory;
-import ntu.edu.nhom13.services.DegreeService;
 import ntu.edu.nhom13.services.EducationHistoryService;
-import ntu.edu.nhom13.services.LanguageLevelService;
-import ntu.edu.nhom13.services.OrganizationService;
-import ntu.edu.nhom13.services.RankService;
-import ntu.edu.nhom13.services.ResearchFieldService;
 import ntu.edu.nhom13.services.ScientistService;
-import ntu.edu.nhom13.services.TitleService;
 import ntu.edu.nhom13.services.WorkHistoryService;
 @Controller
 public class AdminController {
@@ -41,24 +34,6 @@ public class AdminController {
 
 	@Autowired
 	private EducationHistoryService educationHistoryService;
-
-	@Autowired
-    private DegreeService degreeService;
-	
-	@Autowired
-    private RankService rankService;
-	
-	@Autowired
-    private TitleService titleService;
-	
-	@Autowired
-    private ResearchFieldService researchFieldService;
-	
-	@Autowired
-    private OrganizationService organizationService;
-	
-	@Autowired
-    private LanguageLevelService languageLevelService;
 	
 	@GetMapping("/admin/profile")
     public String profileAdmin(Model model,Authentication authentication) {

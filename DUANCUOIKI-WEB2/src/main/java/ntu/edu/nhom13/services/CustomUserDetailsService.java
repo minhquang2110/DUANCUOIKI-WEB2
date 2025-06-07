@@ -33,14 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account user = accountRepository.findByUsername(username);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        return org.springframework.security.core.userdetails.User
-//            .withUsername(user.getUsername())
-//            .password(passwordEncoder.encode(user.getPassword())) 
-//            .roles(user.getRole().toString()) 
-//            .build();
-        if(user == null) {
-        	
-        }
         if(user.getRole().toString()=="Admin") {
         	Admin scientist= adminService.getAdminByAccountId(user.getAccountId());
         	return new 	User(user,scientist);

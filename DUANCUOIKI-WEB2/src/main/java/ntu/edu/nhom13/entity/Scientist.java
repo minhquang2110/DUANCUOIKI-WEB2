@@ -13,7 +13,7 @@ public class Scientist {
     @Column(name = "id")
     private Integer id;  
 
-    @OneToOne(cascade = CascadeType.ALL)  // rất quan trọng để tự động lưu account cùng scientist
+    @OneToOne(cascade = CascadeType.ALL) 
     @JoinColumn(name = "account_id")
     private Account account;
 
