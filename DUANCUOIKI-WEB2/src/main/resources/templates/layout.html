@@ -123,7 +123,10 @@
 	                    CSDL Khoa Công Nghệ Thông Tin
 	                </h4>
 	            </div>
-	
+	            <div>
+	                <a href="/logout" th:text="${#ctx.session.isEmpty()? 'Đăng nhập' : 'Đăng xuất'}"
+	                   class="btn btn-danger rounded-pill px-4"></a>
+	            </div>
 	            <div>
 	        </div>
 	    </header>
