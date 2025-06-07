@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public class WorkHistory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")
     private Integer id;
 
@@ -24,9 +25,7 @@ public class WorkHistory {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id")
-    private Organization organization;
+    private String organization;
 
     @Column(name = "position")
     private String position;
@@ -62,13 +61,15 @@ public class WorkHistory {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Organization getOrganization() {
-        return organization;
-    }
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-    public String getPosition() {
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+	public String getPosition() {
         return position;
     }
     public void setPosition(String position) {

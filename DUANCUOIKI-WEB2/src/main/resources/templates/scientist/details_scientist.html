@@ -32,7 +32,6 @@
 	        border: 1px solid #dee2e6;
 	    }
 	</style>
-
 </head>
 
 <body>
@@ -148,9 +147,9 @@
 			                <tr>
 			                    <th>Thời gian bắt đầu</th>
 			                    <th>Thời gian kết thúc</th>
-			                    <th>Chức vụ</th>
+			                    <th>Chức danh</th>
 			                    <th>Đơn vị</th>
-			                    <th>Vị trí</th>
+			                    <th>Chức vụ</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -158,7 +157,7 @@
 			                    <td th:text="${wh.startDate}"></td>
 			                    <td th:text="${wh.endDate}"></td>
 			                    <td th:text="${wh.title}"></td>
-			                    <td th:text="${wh.organization.name}"></td>
+			                    <td th:text="${wh.organization}"></td>
 			                    <td th:text="${wh.position}"></td>
 			                </tr>
 			            </tbody>
@@ -172,7 +171,7 @@
 			        <table class="table table-bordered table-sm table-hover table-striped align-middle w-100">
 			            <thead>
 			                <tr>
-			                    <th>Cấp độ</th>
+			                    <th>Trình độ</th>
 			                    <th>Cơ sở đào tạo</th>
 			                    <th>Ngành học</th>
 			                    <th>Năm tốt nghiệp</th>
