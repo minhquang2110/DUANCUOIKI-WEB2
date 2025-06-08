@@ -68,14 +68,10 @@ public class AdminController {
     public String listScientists(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
         List<Scientist> scientists;
 
-        // Nếu có từ khóa tìm kiếm
         if (keyword != null && !keyword.trim().isEmpty()) {
-            // Gọi service để tìm kiếm
             scientists = scientistService.searchScientists(keyword);
-            // Trả lại keyword cho view để hiển thị lại trên ô tìm kiếm
             model.addAttribute("keyword", keyword);
         } else {
-            // Nếu không có từ khóa, lấy tất cả
             scientists = scientistService.getAllScientists();
         }
 

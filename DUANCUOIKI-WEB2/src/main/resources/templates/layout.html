@@ -168,10 +168,10 @@
 				      <a class="nav-link text-white fw-semibold" th:href="@{/statistics}">Thống kê</a>
 				    </li>
 				    <li class="nav-item" sec:authorize="hasRole('Admin')">
-				      <a class="nav-link text-white fw-semibold" th:href="@{/admin/profile}">Thông tin cá nhân</a>
+				      <a class="nav-link text-white fw-semibold" th:href="@{/admin/profile}" th:if="${#authentication.principal.admin != null}" >Thông tin cá nhân</a>
 				    </li>
 				    <li class="nav-item" sec:authorize="hasRole('Scientist')">
-				      <a class="nav-link text-white fw-semibold" th:href="@{/scientists/profile}">Thông tin cá nhân</a>
+				      <a class="nav-link text-white fw-semibold" th:href="@{/scientists/profile}" th:if="${#authentication.principal.scientist != null}">Thông tin cá nhân</a>
 				    </li>
 				  </ul>
 				</div>
